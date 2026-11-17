@@ -20,8 +20,9 @@ Chromium isn't installed, point `CHROMIUM_EXECUTABLE` at a Chrome binary.
 
 ## Rules
 
-- Every external URL and unconfirmed fact lives in `site.config.ts`. `TODO` there renders a visible
-  `[TODO: …]` marker; never fill one with a guess.
+- Every external URL and unconfirmed fact lives in `site.config.ts`; never fill one with a guess.
+  A link or the contact email left as `TODO` is hidden from the nav and footer. Unconfirmed copy
+  on a page renders a visible `[TODO: …]` marker.
 - Copy uses only confirmed product facts. No invented customers, numbers or quotes.
 - Interactive controls are UI SDK (`@ui-sdk/react/<component>`), styled in `app/globals.css` by
   `data-slot` and state attributes. Read `node_modules/@ui-sdk/react/docs/llms.txt` first; the skill

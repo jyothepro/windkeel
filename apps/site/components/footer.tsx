@@ -1,7 +1,12 @@
-import { site } from "../site.config.ts";
+import { isTodo, site } from "../site.config.ts";
 import { ConfigLink } from "./external-link.tsx";
 import { Wordmark } from "./logo.tsx";
-import { Todo } from "./todo.tsx";
+
+const RESOURCE_LINKS = [
+  { label: "Docs", href: site.docsUrl },
+  { label: "GitHub", href: site.githubUrl },
+  { label: "Status", href: site.statusUrl },
+];
 
 const linkClass = "inline-flex min-h-11 items-center text-sm text-muted hover:text-fg";
 
@@ -29,15 +34,11 @@ export function Footer() {
             </li>
           </ul>
           <ul>
-            <li>
-              <ConfigLink href={site.docsUrl} label="Docs" className={linkClass} />
-            </li>
-            <li>
-              <ConfigLink href={site.githubUrl} label="GitHub" className={linkClass} />
-            </li>
-            <li>
-              <ConfigLink href={site.statusUrl} label="Status" className={linkClass} />
-            </li>
+            {RESOURCE_LINKS.filter((link) => !isTodo(link.href)).map((link) => (
+              <li key={link.label}>
+                <ConfigLink href={link.href} label={link.label} className={linkClass} />
+              </li>
+            ))}
           </ul>
           <ul>
             <li>
@@ -46,15 +47,11 @@ export function Footer() {
             <li>
               <a href="/terms" className={linkClass}>Terms</a>
             </li>
-            <li>
-              {site.contactEmail === "TODO" ? (
-                <span className={linkClass}>
-                  Contact <Todo>contact email</Todo>
-                </span>
-              ) : (
+            {isTodo(site.contactEmail) ? null : (
+              <li>
                 <a href={`mailto:${site.contactEmail}`} className={linkClass}>Contact</a>
-              )}
-            </li>
+              </li>
+            )}
           </ul>
         </nav>
       </div>

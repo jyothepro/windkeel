@@ -43,7 +43,7 @@ not legal from those states, so the run stays put with nothing driving it. `CREA
 the stranded-created-runs sweep; `PR_READY` is not. This config is not in CI; run it by hand:
 
 ```sh
-cd formal && java -cp ~/.cache/windkeel-tla/tla2tools-1.8.0.jar tlc2.TLC -deadlock -config RunLifecycle.stranded.cfg RunLifecycle.tla
+cd formal && java -cp ~/.cache/windkeel-tla/tla2tools-1.7.4.jar tlc2.TLC -deadlock -config RunLifecycle.stranded.cfg RunLifecycle.tla
 ```
 
 ## CreditLedger

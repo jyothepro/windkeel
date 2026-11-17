@@ -2,8 +2,8 @@ export const site = {
   name: "Windkeel",
   url: "https://windkeel.dev",
   appUrl: process.env.NEXT_PUBLIC_APP_URL ?? "https://app.windkeel.dev",
-  docsUrl: "TODO",
-  githubUrl: "TODO",
+  docsUrl: "https://app.windkeel.dev/docs",
+  githubUrl: "https://github.com/jyothepro/windkeel",
   statusUrl: "TODO",
   contactEmail: "TODO",
   description:

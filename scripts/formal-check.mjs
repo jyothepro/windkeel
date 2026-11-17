@@ -5,9 +5,11 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const VERSION = "1.8.0";
+// Pin a stable release. Upstream's v1.8.0 is a rolling pre-release whose tla2tools.jar is
+// rebuilt in place, so its hash changes without notice and this check would fail on every PR.
+const VERSION = "1.7.4";
 const URL_ = `https://github.com/tlaplus/tlaplus/releases/download/v${VERSION}/tla2tools.jar`;
-const SHA256 = "e1f11b75c4b5bc4478ba0ac5cb6ae28e40a01b0016bc33e0aa97da22dfdbcd7f";
+const SHA256 = "936a262061c914694dfd669a543be24573c45d5aa0ff20a8b96b23d01e050e88";
 const CACHE = process.env.WINDKEEL_TLA_CACHE ?? join(homedir(), ".cache", "windkeel-tla");
 const JAR = join(CACHE, `tla2tools-${VERSION}.jar`);
 

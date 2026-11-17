@@ -46,10 +46,10 @@ export function DesktopNav() {
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem value="docs">
-          <ConfigLink href={site.docsUrl} label="Docs" className="nav-link" compact />
+          <ConfigLink href={site.docsUrl} label="Docs" className="nav-link" />
         </NavigationMenuItem>
         <NavigationMenuItem value="github">
-          <ConfigLink href={site.githubUrl} label="GitHub" className="nav-link" compact />
+          <ConfigLink href={site.githubUrl} label="GitHub" className="nav-link" />
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
