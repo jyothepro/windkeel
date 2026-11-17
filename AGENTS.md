@@ -44,6 +44,7 @@ is done, run at least `arch:check`, `invariant:check`, `lint` and the test files
 | `packages/api-contract/` | The one API contract shared by ingress, console and CLI | [packages/AGENTS.md](packages/AGENTS.md) |
 | `apps/ingress/` | The control-plane API on Vercel (`orqon-backend`) | [apps/ingress/AGENTS.md](apps/ingress/AGENTS.md) |
 | `apps/console/` | Next.js console (`orqon-frontend`) | [apps/console/AGENTS.md](apps/console/AGENTS.md) |
+| `apps/site/` | Marketing site for windkeel.dev (`windkeel-site`). Static; never imports product code | [apps/site/AGENTS.md](apps/site/AGENTS.md) |
 | `migrations/` | Forward-only numbered SQL | [migrations/AGENTS.md](migrations/AGENTS.md) |
 | `test/` | `node:test` suites, run concurrently | [test/AGENTS.md](test/AGENTS.md) |
 | `docs/adr/` | Architecture decisions | [docs/adr/README.md](docs/adr/README.md) |

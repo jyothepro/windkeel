@@ -17,6 +17,7 @@ const GENERATED_OR_BUILT = [
   "**/.swc/**",
   "src/.well-known/**",
   "apps/console/next-env.d.ts",
+  "apps/site/next-env.d.ts",
   "src/sandbox/human-workspace-server-files.ts",
   "src/sandbox/maker-browser/windkeel-browse-source.ts",
 ];
