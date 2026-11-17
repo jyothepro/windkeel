@@ -114,7 +114,7 @@
     "@windkeel/verification": "*",
     "@vercel/connect": "^2.8.0",
     "@vercel/functions": "^3.10.6",
-    "@vercel/sandbox": "^3.9.1",
+    "@vercel/sandbox": "^4.0.0",
     "pg": "^8.23.1",
     "workflow": "^5.3.0"
   },
