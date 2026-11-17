@@ -1,0 +1,22 @@
+<!-- @dsCard group="Forms" height=150 subtitle="Setting rows; click to toggle" -->
+<div class="oq-stack" style="--gap: var(--space-4); padding: var(--space-4); max-width: 480px">
+  <div class="oq-switch-row">
+    <div class="oq-switch-row__text">
+      <span class="oq-switch-row__title" id="sw1">Gate pull requests</span>
+      <span class="oq-switch-row__desc">Fail the check when the verdict isn't Pass.</span>
+    </div>
+    <button type="button" class="oq-switch" role="switch" aria-checked="true" aria-labelledby="sw1" id="sw1-btn"></button>
+  </div>
+  <div class="oq-switch-row">
+    <div class="oq-switch-row__text">
+      <span class="oq-switch-row__title" id="sw2">Run browser QA</span>
+      <span class="oq-switch-row__desc">Skipped automatically when the change has no UI.</span>
+    </div>
+    <button type="button" class="oq-switch" role="switch" aria-checked="false" aria-labelledby="sw2" id="sw2-btn"></button>
+  </div>
+</div>
+<script>
+  document.querySelectorAll(".oq-switch").forEach((s) =>
+    s.addEventListener("click", () => s.setAttribute("aria-checked", String(s.getAttribute("aria-checked") !== "true"))),
+  );
+</script>

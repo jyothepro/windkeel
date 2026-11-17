@@ -1,0 +1,16 @@
+{
+  "mappings": [
+    {
+      "criterion": "AC1",
+      "status": "satisfied",
+      "evidence": ["ev-01"],
+      "reason": "the suite asserts the JSON rendering directly, and it passes on this head commit"
+    },
+    {
+      "criterion": "AC2",
+      "status": "satisfied",
+      "evidence": ["ev-01"],
+      "reason": "the pre-existing plain-text assertion is retained and still passes"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "criteria": [
+    { "id": "AC1", "text": "sum() rejects non-numeric input with a TypeError" }
+  ]
+}

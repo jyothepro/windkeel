@@ -1,0 +1,11 @@
+{
+  "id": "08-dangerous-pattern",
+  "kind": "seeded",
+  "category": "dangerous-pattern",
+  "expect": "fail",
+  "defect": "execFile with an argument array is replaced by exec with an interpolated command string",
+  "stage": "security",
+  "env": {
+    "WINDKEEL_FAKE_SECURITY": "security.json"
+  }
+}

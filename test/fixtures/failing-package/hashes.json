@@ -1,0 +1,13 @@
+{
+  "algorithm": "sha256",
+  "files": {
+    "evidence/ev-01.json": "80787af3b3012e160078334affccd50c5e67e0b538694a25727b852f1b38246d",
+    "evidence/ev-01.log": "88bcf0e9666b60f5ff6fb7a3c37c57b3ffc4388431882e889da951a2de321dc3",
+    "evidence/ev-02.json": "ccdfa37489ff14a00a5b0c443b48069ff02ecab785084c9e81ade33d18a77017",
+    "evidence/ev-03.json": "0c234b809685fafb4dfaef07c57947f36ccbb50a4e9ad343c270da68c117c03c",
+    "intent.json": "eb42bf6e8cc8f18eeccc637b9803706f7f1d17e69cc6f4db55cb45e085dd5177",
+    "manifest.json": "2c7f84f76febfa051d39dfbbc036e71264e0a773b981b4464b222edef4025058",
+    "mapping.json": "2abbd8d1abfbc612ee6dbba758732e97144e05cec87dd4d991b736a5f5ca20f0",
+    "verdict.json": "06ea34833a3aa8fbc88528f6fc98b324440f1540e103a55c1a4a85cd341bd274"
+  }
+}

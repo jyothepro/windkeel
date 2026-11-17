@@ -1,0 +1,19 @@
+{
+  "id": "axios-7257-strict-json",
+  "kind": "replay",
+  "upstream": {
+    "repo": "axios/axios",
+    "clone_url": "https://github.com/axios/axios.git",
+    "pr": 7257,
+    "base_sha": "ec9d94e9f88da13e9219acadf65061fb38ce080a",
+    "head_sha": "7d19335e43d6754a1a9a66e424f7f7da259895bf",
+    "subject": "fix: silentJSONParsing=false should throw on invalid JSON (#7253) (#7257)"
+  },
+  "surfaced": {
+    "how": "reverted",
+    "commit": "a4230f5581b3f58b6ff531b6dbac377a4fd7942a",
+    "subject": "Revert \"fix: silentJSONParsing=false should throw on invalid JSON (#7253) (#7...\" (#7298)",
+    "description": "The change dropped the `&& JSONRequested` qualifier from `strictJSONParsing`, so with silentJSONParsing:false axios threw on any non-JSON string body - plain text and HTML responses included - rather than only when the caller had actually asked for JSON. Reverted two days later."
+  },
+  "expect": "fail"
+}

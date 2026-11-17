@@ -1,0 +1,21 @@
+[
+  { "name": "secrets", "tool": "gitleaks", "ran": true, "note": "0 secret(s) detected", "raw": "", "findings": [] },
+  {
+    "name": "dependencies",
+    "tool": "osv-scanner",
+    "ran": true,
+    "note": "1 advisory match(es)",
+    "raw": "package.json: @windkeel-fixture/archive 2.0.1 -> GHSA-0000-fixture-0000 (CRITICAL)\n",
+    "findings": [
+      {
+        "id": "SEC-DEP-GHSA-0000-fixture-0000",
+        "severity": "blocking",
+        "category": "dependency",
+        "claim": "@windkeel-fixture/archive is affected by GHSA-0000-fixture-0000 (CRITICAL): path traversal during archive extraction",
+        "location": "package.json",
+        "failure_scenario": "An attacker supplies a crafted archive whose entries escape the extraction directory and overwrite files outside it"
+      }
+    ]
+  },
+  { "name": "patterns", "tool": "semgrep", "ran": true, "note": "0 rule match(es)", "raw": "", "findings": [] }
+]

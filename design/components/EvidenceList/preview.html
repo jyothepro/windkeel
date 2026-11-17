@@ -1,0 +1,19 @@
+<!-- @dsCard group="Agent" height=330 subtitle="Evidence panel while verification runs" -->
+<section class="oq-evidence" style="padding: var(--space-4); max-width: 340px">
+  <div class="oq-evidence__header">
+    <h2 class="oq-evidence__title">Evidence</h2>
+    <span class="oq-badge" data-intent="agent"><span class="oq-status oq-status--dot-only" data-verdict="running" aria-hidden="true"></span>Verifying</span>
+  </div>
+  <ol class="oq-evidence__list">
+    <li><a class="oq-evidence__stage" href="#repo-checks"><span class="oq-status oq-status--dot-only" data-verdict="pass" aria-label="pass"></span>Repo checks<span class="oq-evidence__result">pass</span></a></li>
+    <li><a class="oq-evidence__stage" href="#review"><span class="oq-status oq-status--dot-only" data-verdict="pass" aria-label="pass"></span>Adversarial review<span class="oq-evidence__result">pass</span></a></li>
+    <li><a class="oq-evidence__stage" href="#intent"><span class="oq-status oq-status--dot-only" data-verdict="warn" aria-label="warn"></span>Intent mapping<span class="oq-evidence__result">1 unmet</span></a></li>
+    <li><a class="oq-evidence__stage" href="#security"><span class="oq-status oq-status--dot-only" data-verdict="running" aria-label="running"></span>Security scan<span class="oq-evidence__result">running</span></a></li>
+    <li><a class="oq-evidence__stage" href="#browser-qa"><span class="oq-status oq-status--dot-only" data-verdict="skipped" aria-label="skipped"></span>Browser QA<span class="oq-evidence__result">skipped</span></a></li>
+  </ol>
+  <dl class="oq-evidence__facts">
+    <dt>Author</dt><dd>codex-worker</dd>
+    <dt>Verifier</dt><dd>windkeel 0.2.0</dd>
+    <dt>Package</dt><dd>sha256:9c1e…a07b</dd>
+  </dl>
+</section>

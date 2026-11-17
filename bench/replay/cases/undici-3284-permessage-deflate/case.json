@@ -1,0 +1,19 @@
+{
+  "id": "undici-3284-permessage-deflate",
+  "kind": "replay",
+  "upstream": {
+    "repo": "nodejs/undici",
+    "clone_url": "https://github.com/nodejs/undici.git",
+    "pr": 3284,
+    "base_sha": "064b08d35b9372259a07c84f4d0c37da55b130c2",
+    "head_sha": "13523fd7fe66a4238f9ee79326b64cac4fc47d15",
+    "subject": "websocket: pre-calculated length (#3284)"
+  },
+  "surfaced": {
+    "how": "reverted",
+    "commit": "fcfa4db6809885b9272bcaf7aaf6f5a498592ad4",
+    "subject": "revert: \"websocket: pre-calculated length\" (#3290)",
+    "description": "The change replaced Buffer.concat(this.#fragments) with a running #fragmentsBytes counter, but only incremented the counter in the uncompressed branch. Under permessage-deflate the counter stayed 0, so every compressed WebSocket message was delivered as an empty buffer. The revert body says it 'broke permessage-deflate support' and links nodejs/undici#3289 for why the tests did not catch it."
+  },
+  "expect": "fail"
+}

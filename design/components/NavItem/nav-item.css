@@ -1,0 +1,30 @@
+/* NavItem: a row in the sidebar — a run or a destination. */
+.oq-nav-group { display: flex; flex-direction: column; gap: 1px; }
+.oq-nav-group__label {
+  padding: var(--space-3) var(--space-2) var(--space-1);
+  color: var(--color-text-tertiary);
+  font: var(--font-weight-medium) var(--font-size-xs) / var(--line-height-xs) var(--font-sans);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.oq-nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--control-md);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+  font: var(--font-size-md) / var(--line-height-md) var(--font-sans);
+  text-decoration: none;
+  cursor: pointer;
+}
+.oq-nav-item:hover { background: var(--color-bg-hover); color: var(--color-text-primary); }
+/* The open row is neutral: it says where you are, not something to act on (iris is for actions). */
+.oq-nav-item[aria-current="page"] {
+  background: var(--color-bg-active);
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-medium);
+}
+.oq-nav-item__label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.oq-nav-item__meta { color: var(--color-text-tertiary); font: var(--font-size-xs) / 1 var(--font-sans); font-variant-numeric: tabular-nums; }

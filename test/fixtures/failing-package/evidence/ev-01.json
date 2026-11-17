@@ -1,0 +1,18 @@
+{
+  "id": "ev-01",
+  "stage": "checks",
+  "type": "typecheck_result",
+  "status": "passed",
+  "summary": "tsc --noEmit clean: 0 errors, 41 files",
+  "producer": {
+    "command": "npm run --silent typecheck",
+    "exit_code": 0,
+    "duration_ms": 8420
+  },
+  "environment": {
+    "runner": "github-actions",
+    "node": "20.18.1",
+    "clean_checkout": true
+  },
+  "transcript": "evidence/ev-01.log"
+}

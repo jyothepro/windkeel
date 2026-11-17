@@ -1,0 +1,30 @@
+# What a Vercel deploy from this repo must never upload. It applies to every project built from
+# here (windkeel for apps/ingress, console for apps/console), so it's a deny-list: an allow-list
+# written for one app strips files another app's build needs (the root tsconfig.json, src/,
+# migrations/), and that broke the ingress deploy.
+#
+# The point is a CLI deploy from a working copy (`vercel deploy` at the repo root). A Git deploy
+# only ever sees tracked files; a CLI deploy uploads the directory, secrets and all.
+
+# Secrets and credentials
+.env
+.env.*
+**/.env
+**/.env.*
+*.pem
+**/*.pem
+
+# Agent worktrees and local state
+.claude/
+.vercel/
+**/.vercel/
+
+# Dependencies and build output — rebuilt on Vercel
+node_modules/
+**/node_modules/
+**/.next/
+dist/
+**/dist/
+
+# Local only
+.DS_Store

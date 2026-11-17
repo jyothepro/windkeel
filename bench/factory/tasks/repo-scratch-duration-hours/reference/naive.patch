@@ -1,0 +1,16 @@
+diff --git a/src/duration.js b/src/duration.js
+index b02be77..e66c8fb 100644
+--- a/src/duration.js
++++ b/src/duration.js
+@@ -5,8 +5,10 @@ export function formatDuration(totalSeconds) {
+   if (!Number.isInteger(totalSeconds) || totalSeconds < 0) {
+     throw new RangeError("totalSeconds must be a non-negative integer");
+   }
+-  const minutes = Math.floor(totalSeconds / 60);
++  const hours = Math.floor(totalSeconds / 3600);
++  const minutes = Math.floor((totalSeconds % 3600) / 60);
+   const seconds = totalSeconds % 60;
++  if (hours) return `${hours}h ${minutes}m ${seconds}s`;
+   return minutes ? `${minutes}m ${seconds}s` : `${seconds}s`;
+ }
+ 

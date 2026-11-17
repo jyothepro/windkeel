@@ -1,0 +1,30 @@
+{
+  "id": "swe-slugify-69",
+  "source": "swe-bench",
+  "repository": "https://github.com/jyothepro/bench-slugify",
+  "base_ref": "2cc3aff7a4fc1d5159394c874cce2d0a778269a5",
+  "title": "slugify splits plural acronyms like APIs",
+  "description": "Plural acronyms are split into two words. A lowercase `s` after an acronym is a plural, not the start of a new word: `slugify('APIs')` should return `apis` and `slugify('Util APIs')` should return `util-apis`. An acronym followed by a capitalised word must still be split (`APISection` is `api-section`).",
+  "acceptance_criteria": [
+    "`slugify('APIs')` returns `apis`",
+    "`slugify('Util APIs')` returns `util-apis`",
+    "`slugify('APISection')` still returns `api-section`"
+  ],
+  "hidden_tests": {
+    "command": "npm install --ignore-scripts --no-audit --no-fund --no-package-lock --loglevel=error && npx ava test.js",
+    "files": [
+      "test.js"
+    ],
+    "timeout_seconds": 600
+  },
+  "budget_usd": 2.0,
+  "timeout_minutes": 45,
+  "risk_level": "low",
+  "upstream": {
+    "repo": "https://github.com/sindresorhus/slugify",
+    "fix_commit": "1aaea23c4825745bb426105998a195eaa2909e8e",
+    "pull_request": "https://github.com/sindresorhus/slugify/pull/69",
+    "license": "MIT, see UPSTREAM-LICENSE"
+  },
+  "notes": "SWE-bench-style. base_ref is the upstream fix's parent; hidden/test.js is the upstream test file at fix_commit. The scratch repo must hold base_ref's history only (bench/factory/README.md, 'Scratch repositories')."
+}

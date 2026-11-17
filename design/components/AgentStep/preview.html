@@ -1,0 +1,41 @@
+<!-- @dsCard group="Agent" height=300 subtitle="Done, expanded, failed, waiting, running" -->
+<div class="oq-stack" style="--gap: var(--space-1_5); padding: var(--space-4); max-width: 640px">
+  <details class="oq-step" data-state="done">
+    <summary class="oq-step__summary">
+      <svg class="oq-icon oq-icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>
+      <span class="oq-step__verb">read</span><span class="oq-step__target">src/factory/run-service.ts</span><span class="oq-step__meta">412 lines</span>
+      <svg class="oq-icon oq-icon--sm oq-step__chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+    </summary>
+  </details>
+  <details class="oq-step" data-state="done" open>
+    <summary class="oq-step__summary">
+      <svg class="oq-icon oq-icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17l6-5-6-5M12 19h8"/></svg>
+      <span class="oq-step__verb">run</span><span class="oq-step__target">git log --oneline -3</span><span class="oq-step__meta">0.2s</span>
+      <svg class="oq-icon oq-icon--sm oq-step__chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+    </summary>
+    <div class="oq-step__detail"><div class="oq-terminal"><pre class="oq-terminal__body"><span class="oq-terminal__dim">96273a5</span> Stop a criterion nothing can satisfy from failing
+<span class="oq-terminal__dim">86b0db0</span> Record the human-in-the-loop half as observed
+<span class="oq-terminal__dim">bbf2d70</span> Say when a signal has nothing to carry it</pre></div></div>
+  </details>
+  <details class="oq-step" data-state="failed">
+    <summary class="oq-step__summary">
+      <svg class="oq-icon oq-icon--sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></svg>
+      <span class="oq-step__verb">run</span><span class="oq-step__target">npm run typecheck</span><span class="oq-step__meta">exit 2</span>
+      <svg class="oq-icon oq-icon--sm oq-step__chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+    </summary>
+  </details>
+  <details class="oq-step" data-state="waiting">
+    <summary class="oq-step__summary">
+      <svg class="oq-icon oq-icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17l6-5-6-5M12 19h8"/></svg>
+      <span class="oq-step__verb">run</span><span class="oq-step__target">npm install @vercel/sandbox@3.2.0</span><span class="oq-step__meta">needs approval</span>
+      <svg class="oq-icon oq-icon--sm oq-step__chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+    </summary>
+  </details>
+  <details class="oq-step" data-state="running">
+    <summary class="oq-step__summary">
+      <span class="oq-spinner" aria-hidden="true"></span>
+      <span class="oq-step__verb">run</span><span class="oq-step__target">node --test test/run-service.test.js</span><span class="oq-step__meta">4s</span>
+      <svg class="oq-icon oq-icon--sm oq-step__chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+    </summary>
+  </details>
+</div>

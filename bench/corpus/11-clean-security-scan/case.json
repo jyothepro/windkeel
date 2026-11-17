@@ -1,0 +1,10 @@
+{
+  "id": "11-clean-security-scan",
+  "kind": "clean",
+  "category": "none",
+  "expect": "pass",
+  "defect": "none - security-adjacent code that all three scanners clear, so a clean scan is not reported as a warning",
+  "env": {
+    "WINDKEEL_FAKE_SECURITY": "security.json"
+  }
+}

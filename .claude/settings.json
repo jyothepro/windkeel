@@ -1,0 +1,11 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          { "type": "command", "command": "\"$CLAUDE_PROJECT_DIR\"/scripts/hooks/stop-arch-check.sh", "timeout": 60 }
+        ]
+      }
+    ]
+  }
+}

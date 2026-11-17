@@ -1,0 +1,44 @@
+.DS_Store
+node_modules/
+.scratch/
+*.log.tmp
+.env
+.env.*
+!.env.example
+dist/
+.windkeel/
+
+# Vercel CLI project linkage. Not a secret, but not useful in git either — and an unignored
+# .vercel at the repo root is exactly how project/org ids get committed by a `git add -A`.
+# apps/ingress/.gitignore carries this too; the CLI recreates that file, so both exist.
+.vercel
+
+# Supabase CLI scratch. `supabase/.temp/linked-project.json` records which project the CLI is
+# linked to; the link is a local convenience, not a fact about the repository.
+supabase/.temp/
+/.swc
+
+# Built by `workflow build` (npm run build:workflow): the Workflow flow route and its manifest.
+# Generated from src/factory/workflow/vercel.ts, never edited by hand.
+/src/.well-known/
+
+# Per-test World storage for the suites that drive the Vercel backing (@workflow/world-local).
+# One directory per test process — `node --test` runs files concurrently and each teardown
+# clears its own World, so a shared path would let one suite wipe another's runs.
+/.workflow-test-data-*/
+
+# `workflow build` runs with its working directory set to src/ and drops an SWC cache there.
+/src/.swc/
+
+# `npm run -w @windkeel/ingress build:vercel` builds here before moving the result to
+# apps/ingress/.vercel/output — the working directory has to be src/ for the workflow ids to
+# come out right. See apps/ingress/build-vercel-output.mjs.
+/src/.vercel/
+
+# Left behind by the workflow runtime when the CLI starts a run locally.
+.workflow-data/
+.claude/worktrees/
+
+# node:test TAP output read by scripts/skip-budget.mjs
+*.tap
+packages/cli/release/

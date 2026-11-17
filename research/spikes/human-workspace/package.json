@@ -1,0 +1,17 @@
+{
+  "name": "windkeel-spike-human-workspace",
+  "private": true,
+  "description": "Spike A (#367, ADR-0029 §4): a token-gated terminal/editor server in a Vercel Sandbox human workspace.",
+  "type": "module",
+  "engines": { "node": ">=22.18.0" },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "harness": "node harness.mjs",
+    "measure": "node measure.mjs"
+  },
+  "dependencies": {
+    "@xterm/addon-fit": "0.11.0",
+    "@xterm/xterm": "6.0.0",
+    "ws": "8.22.0"
+  }
+}

@@ -1,0 +1,28 @@
+/* Badge: a short label for a count, a state or a property. Neutral by default; data-intent
+   colors it; --solid fills it. */
+.oq-badge {
+  --intent-subtle: var(--color-bg-hover);
+  --intent-border: var(--color-border-subtle);
+  --intent-text: var(--color-text-secondary);
+  --intent-solid: var(--color-bg-inverse);
+  --intent-on-solid: var(--color-text-inverse);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  height: 22px;
+  padding-inline: var(--space-2);
+  border: 1px solid var(--intent-border);
+  border-radius: var(--radius-full);
+  background: var(--intent-subtle);
+  color: var(--intent-text);
+  font: var(--font-weight-medium) var(--font-size-sm) / 1 var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.oq-badge--solid {
+  border-color: transparent;
+  background: var(--intent-solid);
+  color: var(--intent-on-solid);
+}
+.oq-badge--sm { height: 18px; padding-inline: var(--space-1_5); font-size: var(--font-size-xs); }
+.oq-badge .oq-icon { width: var(--icon-sm); height: var(--icon-sm); }

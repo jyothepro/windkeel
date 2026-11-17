@@ -1,0 +1,10 @@
+{
+  "id": "13-clean-reviewed-change",
+  "kind": "clean",
+  "category": "none",
+  "expect": "pass",
+  "defect": "none - a reviewer that returns no findings must leave the verdict at pass, not warn",
+  "env": {
+    "WINDKEEL_FAKE_REVIEWER": "reviewer.json"
+  }
+}

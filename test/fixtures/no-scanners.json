@@ -1,0 +1,5 @@
+[
+  { "tool": "gitleaks", "ran": false, "note": "not available to the test suite" },
+  { "tool": "osv-scanner", "ran": false, "note": "not available to the test suite" },
+  { "tool": "semgrep", "ran": false, "note": "not available to the test suite" }
+]

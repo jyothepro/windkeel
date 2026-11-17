@@ -1,0 +1,50 @@
+/* Tabs: switch between views of the same thing (Transcript / Diff / Evidence). */
+.oq-tabs {
+  display: flex;
+  gap: var(--space-1);
+  border-bottom: 1px solid var(--color-border-subtle);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.oq-tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1_5);
+  height: var(--control-md);
+  padding-inline: var(--space-2);
+  margin-bottom: -1px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  color: var(--color-text-secondary);
+  font: var(--font-weight-medium) var(--font-size-md) / 1 var(--font-sans);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+.oq-tab:hover { color: var(--color-text-primary); }
+a.oq-tab { text-decoration: none; }
+.oq-tab[aria-selected="true"],
+.oq-tab[aria-current="page"] { color: var(--color-text-primary); border-bottom-color: var(--color-text-primary); }
+.oq-tab:focus-visible { outline-offset: -2px; border-radius: var(--radius-sm); }
+
+/* Pills: the same tabs as rounded chips, for a page's top-level views (Mine 2 · All 8). The
+   selected pill is neutral — where you are, not an action. */
+.oq-tabs--pills { gap: var(--space-0_5); border-bottom: 0; }
+.oq-tabs--pills .oq-tab {
+  height: var(--control-sm);
+  margin-bottom: 0;
+  padding-inline: var(--space-3);
+  border: 0;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  transition: background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard);
+}
+.oq-tabs--pills .oq-tab:hover { background: var(--color-bg-hover); }
+.oq-tabs--pills .oq-tab[aria-selected="true"],
+.oq-tabs--pills .oq-tab[aria-current="page"] { background: var(--color-bg-active); color: var(--color-text-primary); }
+.oq-tabs--pills .oq-tab:focus-visible { outline-offset: 2px; border-radius: var(--radius-full); }
+
+/* A count after the label, quieter than a Badge: 2, not a thing to read. */
+.oq-tab__count { color: var(--color-text-tertiary); font-weight: var(--font-weight-regular); font-variant-numeric: tabular-nums; }

@@ -1,0 +1,8 @@
+{
+  "id": "01-failing-test-seeded",
+  "kind": "seeded",
+  "category": "repo-checks",
+  "expect": "fail",
+  "defect": "off-by-one in sum() that the repo's own test suite catches",
+  "stage": "checks"
+}

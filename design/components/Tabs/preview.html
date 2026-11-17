@@ -1,0 +1,28 @@
+<!-- @dsCard group="Navigation" height=96 subtitle="Click to switch" -->
+<div style="padding: var(--space-4)">
+  <div class="oq-tabs" role="tablist" aria-label="Run views">
+    <button type="button" class="oq-tab" role="tab" aria-selected="true" id="t-transcript">Transcript</button>
+    <button type="button" class="oq-tab" role="tab" aria-selected="false" tabindex="-1" id="t-changes">Changes <span class="oq-badge oq-badge--sm">3</span></button>
+    <button type="button" class="oq-tab" role="tab" aria-selected="false" tabindex="-1" id="t-evidence">Evidence <span class="oq-badge oq-badge--sm" data-intent="warning">1</span></button>
+    <button type="button" class="oq-tab" role="tab" aria-selected="false" tabindex="-1" id="t-logs">Logs</button>
+  </div>
+</div>
+<script>
+  const tabs = [...document.querySelectorAll(".oq-tab")];
+  tabs.forEach((t) =>
+    t.addEventListener("click", () =>
+      tabs.forEach((o) => {
+        o.setAttribute("aria-selected", String(o === t));
+        o.tabIndex = o === t ? 0 : -1;
+      }),
+    ),
+  );
+</script>
+<div style="margin-top:24px">
+  <nav class="oq-tabs oq-tabs--pills" aria-label="Inbox views">
+    <a class="oq-tab" href="#" aria-current="page">Needs you <span class="oq-tab__count">2</span></a>
+    <a class="oq-tab" href="#">In progress <span class="oq-tab__count">3</span></a>
+    <a class="oq-tab" href="#">Done <span class="oq-tab__count">3</span></a>
+    <a class="oq-tab" href="#">All <span class="oq-tab__count">8</span></a>
+  </nav>
+</div>

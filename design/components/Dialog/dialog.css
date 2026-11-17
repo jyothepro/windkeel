@@ -1,0 +1,27 @@
+/* Dialog: a modal decision. Use the native <dialog> element; ::backdrop takes the scrim. */
+.oq-dialog {
+  width: min(480px, calc(100vw - 32px));
+  padding: 0;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-xl);
+  background: var(--color-bg-overlay);
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-lg);
+}
+.oq-dialog::backdrop { background: var(--color-bg-scrim); }
+.oq-dialog[open] { animation: oq-dialog-in var(--duration-slow) var(--ease-out); }
+.oq-dialog__header { padding: var(--space-5) var(--space-5) 0; }
+.oq-dialog__title { margin: 0; font: var(--font-weight-semibold) var(--font-size-xl) / var(--line-height-xl) var(--font-sans); letter-spacing: -0.01em; }
+.oq-dialog__body { padding: var(--space-2) var(--space-5) var(--space-5); color: var(--color-text-secondary); font: var(--font-size-base) / var(--line-height-base) var(--font-sans); }
+.oq-dialog__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  border-top: 1px solid var(--color-border-subtle);
+}
+@keyframes oq-dialog-in { from { opacity: 0; transform: translateY(8px) scale(0.98); } }
+
+/* For static previews: the scrim as an element instead of ::backdrop. */
+.oq-dialog-scrim { display: grid; place-items: center; padding: var(--space-6); background: var(--color-bg-scrim); }
+.oq-dialog-scrim > .oq-dialog { position: static; display: block; }

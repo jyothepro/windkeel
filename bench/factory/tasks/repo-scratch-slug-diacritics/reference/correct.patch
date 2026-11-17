@@ -1,0 +1,18 @@
+diff --git a/src/slug.js b/src/slug.js
+index 1576cfc..7e3bf08 100644
+--- a/src/slug.js
++++ b/src/slug.js
+@@ -1,9 +1,12 @@
+ /**
+  * Turns a title into a URL slug: lowercase ASCII letters and digits, runs of anything else
+- * collapsed to a single `-`, no leading or trailing `-`.
++ * collapsed to a single `-`, no leading or trailing `-`. Accented Latin letters lose their
++ * accents (`é` is `e`) rather than becoming separators.
+  */
+ export function slugify(text) {
+   return String(text)
++    .normalize("NFD")
++    .replace(/\p{M}+/gu, "")
+     .toLowerCase()
+     .replace(/[^a-z0-9]+/g, "-")
+     .replace(/^-+|-+$/g, "");

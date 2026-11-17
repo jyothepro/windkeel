@@ -1,0 +1,37 @@
+/* AgentStep: one tool call by the agent — read a file, run a command, edit, search.
+   A <details> so the output can expand. data-state: running, done, failed, waiting. */
+.oq-step {
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-surface);
+  font: var(--font-size-md) / var(--line-height-md) var(--font-sans);
+}
+.oq-step__summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--control-md);
+  padding: var(--space-1) var(--space-3);
+  color: var(--color-text-secondary);
+  list-style: none;
+  cursor: pointer;
+}
+.oq-step__summary::-webkit-details-marker { display: none; }
+.oq-step__summary:hover { color: var(--color-text-primary); }
+.oq-step__summary > .oq-icon { color: var(--color-text-tertiary); }
+.oq-step__verb { color: var(--color-text-tertiary); font: var(--font-size-sm) / 1 var(--font-mono); min-width: 4ch; }
+.oq-step__target { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--font-mono); font-size: var(--font-size-sm); color: var(--color-text-primary); }
+.oq-step__meta { color: var(--color-text-tertiary); font: var(--font-size-xs) / 1 var(--font-sans); font-variant-numeric: tabular-nums; }
+.oq-step__chevron { transition: transform var(--duration-base) var(--ease-standard); color: var(--color-text-tertiary); }
+.oq-step[open] .oq-step__chevron { transform: rotate(90deg); }
+.oq-step__detail { padding: 0 var(--space-3) var(--space-3); }
+.oq-step:not(:has(.oq-step__detail)) .oq-step__chevron { visibility: hidden; }
+
+.oq-step[data-state="running"] { border-color: var(--color-agent-border); background: var(--color-agent-subtle); }
+.oq-step[data-state="running"] .oq-step__summary,
+.oq-step[data-state="running"] .oq-step__target,
+.oq-step[data-state="running"] .oq-step__verb { color: var(--color-agent-text); }
+.oq-step[data-state="failed"] .oq-step__summary > .oq-icon,
+.oq-step[data-state="failed"] .oq-step__verb { color: var(--color-danger-text); }
+.oq-step[data-state="waiting"] { border-style: dashed; border-color: var(--color-warning-border); }
+.oq-step[data-state="waiting"] .oq-step__verb { color: var(--color-warning-text); }

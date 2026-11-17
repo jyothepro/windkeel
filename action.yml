@@ -1,0 +1,321 @@
+name: "Windkeel Gate"
+description: "Independently verify a pull request and publish a portable evidence package."
+author: "Windkeel"
+branding:
+  icon: "shield"
+  color: "purple"
+
+# The candidate commit is untrusted: its checks are code it wrote, run by the Verify step. What a
+# composite action can and cannot keep away from that code is the whole design of this file, and
+# the README's "In GitHub Actions" section says it in prose. In short:
+#
+#   mode: verify  — runs the candidate's checks and uploads an UNSIGNED package. Give this job no
+#                   `id-token` permission.
+#   mode: seal    — never checks out or executes the candidate. Downloads that package, recomputes
+#                   it (`windkeel sign` refuses one that does not verify), keyless-signs it, annotates
+#                   and gates. Only this job gets `id-token: write`.
+#   mode: all     — the historical single job. Kept for compatibility; it shares a job — and so a
+#                   Unix user, a filesystem and the runner's OIDC endpoint — with candidate code, and
+#                   says so in the log every time it runs.
+
+inputs:
+  mode:
+    description: >-
+      "all" (default; verify, sign and gate in one job — candidate code shares the job with the
+      signing identity), "verify" (run checks, upload the unsigned package; no id-token), or
+      "seal" (download, recompute, sign, annotate and gate; never runs candidate code).
+    default: "all"
+  repo-path:
+    description: "Checkout to verify."
+    default: "."
+  package-path:
+    description: "Where to write the evidence package (relative to repo-path). Ignored in seal mode."
+    default: ".windkeel/evidence"
+  artifact-name:
+    description: >-
+      Name of the uploaded evidence artifact. In verify mode the unsigned package is uploaded as
+      "<artifact-name>-unsigned", which is what seal mode downloads.
+    default: "windkeel-evidence"
+  expected-head-sha:
+    description: >-
+      Seal mode: refuse to sign a package about any other commit. Defaults to the pull request's
+      head SHA.
+    default: ${{ github.event.pull_request.head.sha }}
+  check-env:
+    description: >-
+      Comma-separated names of environment variables the repo's checks may see, beyond the
+      allowlist (PATH, HOME, LANG/LC_*, TMPDIR, TERM, CI, …). Read from this workflow, never from
+      the checkout. The runner's OIDC/runtime tokens, GITHUB_ENV/PATH/OUTPUT and the model keys
+      are refused even if listed.
+    default: ""
+  gate:
+    description: "Fail the job when the gate level below is reached."
+    default: "true"
+  gate-level:
+    description: >-
+      How strict the gate is: "fail" (only a fail verdict, the historical default),
+      "criteria" (also a criterion the evidence could not settle), or "warn" (anything
+      that is not a clean pass). An unsettled criterion only warns, so the default lets
+      one through; "criteria" is the level a merge gate usually wants.
+    default: "fail"
+  intent:
+    description: "Optional acceptance-criteria file, when the PR description is not the source of truth."
+    default: ""
+  anthropic-api-key:
+    description: "Reviewer credential. The gate uses your keys; nothing is sent to a Windkeel service."
+    default: ""
+  openai-api-key:
+    description: "Reviewer credential."
+    default: ""
+  review-model:
+    description: "Override the reviewer model."
+    default: ""
+  sign:
+    description: "Keyless-sign the package with Sigstore. Needs `permissions: id-token: write` (seal or all mode)."
+    default: "true"
+  upload-artifact:
+    description: "Upload the evidence package as a workflow artifact (always on in verify mode)."
+    default: "true"
+
+outputs:
+  verdict:
+    description: "pass, warn, or fail."
+    value: ${{ steps.verify.outputs.verdict || steps.sign.outputs.verdict }}
+  package-path:
+    description: "Path to the evidence package."
+    value: ${{ steps.pin.outputs.package }}
+
+runs:
+  using: composite
+  steps:
+    - name: Check mode
+      shell: bash
+      env:
+        MODE: ${{ inputs.mode }}
+      run: |
+        case "$MODE" in
+          all)
+            echo "::warning title=Windkeel Gate shares a job with candidate code::mode 'all' runs the candidate's checks in the same job that signs and gates. A check can read this job's OIDC endpoint from another process, leave processes behind, or write the runner's file-command files; the mitigations in this action raise the bar but cannot contain code with this job's user (and, on GitHub-hosted runners, sudo). Split into 'verify' and 'seal' jobs — see the README, \"In GitHub Actions\"." ;;
+          verify|seal) ;;
+          *) echo "::error::mode must be all, verify or seal (got '$MODE')"; exit 2 ;;
+        esac
+
+    - name: Install cosign
+      if: ${{ inputs.sign == 'true' && inputs.mode != 'verify' }}
+      uses: sigstore/cosign-installer@v3
+
+    - name: Build windkeel
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      # `build:cli` rather than `build`: the Action runs `verify` and `annotate`, which need the
+      # engine and the published CLI and nothing else. The full build also compiles the factory,
+      # the Workflow bundle and the ingress — none of which this job invokes, each of which is
+      # another way for the Action to fail at a step that was never going to be used.
+      run: npm ci --ignore-scripts && npm run build:cli
+
+    # Pin the Gate's own runtime BEFORE any candidate code runs. Step outputs are held by the
+    # runner, so a check cannot rewrite what is recorded here; every later step that runs node
+    # re-hashes the CLI, its engine and the node binary against these values and refuses to run
+    # if anything changed — a check that overwrote `$GITHUB_ACTION_PATH/packages/cli/dist/cli.js`
+    # or the toolcache's node no longer gets its code run by Annotate, Sign or Gate.
+    - name: Pin the gate's runtime
+      id: pin
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      env:
+        MODE: ${{ inputs.mode }}
+        REPO_PATH: ${{ inputs.repo-path }}
+        PACKAGE_PATH: ${{ inputs.package-path }}
+      run: |
+        node_bin=$(node -p 'require("fs").realpathSync(process.execPath)')
+        cosign_bin=$(command -v cosign || true)
+        sha() { if [ -x /usr/bin/sha256sum ]; then /usr/bin/sha256sum "$@"; else /usr/bin/shasum -a 256 "$@"; fi; }
+        digest=$( { sha "$node_bin"; [ -n "$cosign_bin" ] && sha "$cosign_bin"; \
+          find packages/cli/dist packages/verification/dist -type f | LC_ALL=C sort | while read -r f; do sha "$f"; done; \
+          ls -l node_modules/@windkeel/; } | sha | cut -d' ' -f1)
+        if [ "$MODE" = "seal" ]; then package="$RUNNER_TEMP/windkeel-evidence"; else
+          case "$PACKAGE_PATH" in /*) package="$PACKAGE_PATH" ;; *) package="$(cd "$GITHUB_WORKSPACE/$REPO_PATH" && pwd -P)/$PACKAGE_PATH" ;; esac
+        fi
+        {
+          echo "node=$node_bin"
+          echo "cosign-dir=$( [ -n "$cosign_bin" ] && dirname "$cosign_bin" )"
+          echo "digest=$digest"
+          echo "package=$package"
+        } >> "$GITHUB_OUTPUT"
+
+    - name: Verify
+      id: verify
+      if: ${{ inputs.mode != 'seal' }}
+      shell: bash
+      working-directory: ${{ inputs.repo-path }}
+      env:
+        ANTHROPIC_API_KEY: ${{ inputs.anthropic-api-key }}
+        OPENAI_API_KEY: ${{ inputs.openai-api-key }}
+        WINDKEEL_REVIEW_MODEL: ${{ inputs.review-model }}
+        # The explicit opt-in; everything else the checks see is the engine's allowlist.
+        WINDKEEL_CHECK_ENV: ${{ inputs.check-env }}
+        NODE_BIN: ${{ steps.pin.outputs.node }}
+        PACKAGE: ${{ steps.pin.outputs.package }}
+        INTENT: ${{ inputs.intent }}
+      run: |
+        set -o pipefail
+        own_uid=$(id -u)
+        user_pids() { ps -A -o pid=,uid= | awk -v u="$own_uid" '$2 == u { print $1 }' | LC_ALL=C sort; }
+        before=$(user_pids)
+        out="$RUNNER_TEMP/windkeel-verify.out"
+        "$NODE_BIN" "$GITHUB_ACTION_PATH/packages/cli/dist/cli.js" verify \
+          --repo . --out "$PACKAGE" ${INTENT:+--intent "$INTENT"} | tee "$out"
+
+        # Second net behind the engine's per-check process-group kill: anything running as this
+        # user that did not exist before `verify` started is a leftover of the candidate's checks
+        # (a double-forked daemon escapes a process group, not this). Processes started via sudo
+        # run as root and are out of reach — the reason `seal` is a separate job.
+        for _ in 1 2 3; do
+          for pid in $(LC_ALL=C comm -13 <(echo "$before") <(user_pids)); do
+            [ "$pid" = "$$" ] || kill -9 "$pid" 2>/dev/null || true
+          done
+        done
+
+        # The runner applies GITHUB_ENV / GITHUB_PATH / GITHUB_OUTPUT / GITHUB_STEP_SUMMARY when
+        # this step ends. This step writes none of them before this point, so anything in them
+        # now came from candidate code — e.g. `BASH_ENV=…` or a PATH entry that would run the
+        # attacker's code in every later step. Empty them and fail.
+        tampered=""
+        for f in "$GITHUB_ENV" "$GITHUB_PATH" "$GITHUB_OUTPUT" "$GITHUB_STEP_SUMMARY"; do
+          if [ -n "$f" ] && [ -s "$f" ]; then tampered="$tampered $(basename "$f")"; : > "$f"; fi
+        done
+        if [ -n "$tampered" ]; then
+          echo "::error title=Windkeel Gate::candidate code wrote to the runner's file-command files ($tampered ); cleared them and refusing to continue"
+          exit 1
+        fi
+        verdict=$(sed -n 's/^verdict: //p' "$out" | tr 'A-Z' 'a-z')
+        echo "verdict=$verdict" >> "$GITHUB_OUTPUT"
+
+    - name: Upload unsigned evidence package
+      if: ${{ inputs.mode == 'verify' }}
+      uses: actions/upload-artifact@v7
+      with:
+        name: ${{ inputs.artifact-name }}-unsigned
+        path: ${{ steps.pin.outputs.package }}
+        if-no-files-found: error
+        include-hidden-files: true
+
+    - name: Download unsigned evidence package
+      if: ${{ inputs.mode == 'seal' }}
+      uses: actions/download-artifact@v8
+      with:
+        name: ${{ inputs.artifact-name }}-unsigned
+        path: ${{ steps.pin.outputs.package }}
+
+    # Re-verify, then sign, in a job that never ran the candidate. `windkeel sign` recomputes the
+    # package (hashes, transcript bindings, verdict) and refuses one that does not verify or is
+    # about a different commit; it does not reseal, so a file added after verification cannot be
+    # blessed. With `sign: false` it runs `--verify-only`: the same checks, no signature.
+    - name: Sign
+      id: sign
+      if: ${{ inputs.mode == 'seal' }}
+      shell: bash
+      env:
+        NODE_BIN: ${{ steps.pin.outputs.node }}
+        COSIGN_DIR: ${{ steps.pin.outputs.cosign-dir }}
+        DIGEST: ${{ steps.pin.outputs.digest }}
+        PACKAGE: ${{ steps.pin.outputs.package }}
+        SIGN: ${{ inputs.sign }}
+        EXPECTED_HEAD: ${{ inputs.expected-head-sha }}
+      run: |
+        sha() { if [ -x /usr/bin/sha256sum ]; then /usr/bin/sha256sum "$@"; else /usr/bin/shasum -a 256 "$@"; fi; }
+        cosign_bin="${COSIGN_DIR:+$COSIGN_DIR/cosign}"
+        now=$( cd "$GITHUB_ACTION_PATH" && { sha "$NODE_BIN"; [ -n "$cosign_bin" ] && sha "$cosign_bin"; \
+          find packages/cli/dist packages/verification/dist -type f | LC_ALL=C sort | while read -r f; do sha "$f"; done; \
+          ls -l node_modules/@windkeel/; } | sha | cut -d' ' -f1)
+        if [ "$now" != "$DIGEST" ]; then
+          echo "::error title=Windkeel Gate::the gate's own code or node changed after it was pinned — refusing to run it"
+          exit 1
+        fi
+        # Always re-verified (recompute + expected head), signed or not: with `sign: false` this
+        # is still the only check between the downloaded package and the upload below, which
+        # happens before — and even without — the Gate step.
+        verify_only=()
+        [ "$SIGN" = "true" ] || verify_only=(--verify-only)
+        /usr/bin/env -i PATH="${COSIGN_DIR:+$COSIGN_DIR:}/usr/bin:/bin" HOME="$HOME" \
+          ACTIONS_ID_TOKEN_REQUEST_TOKEN="$ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+          ACTIONS_ID_TOKEN_REQUEST_URL="$ACTIONS_ID_TOKEN_REQUEST_URL" \
+          "$NODE_BIN" "$GITHUB_ACTION_PATH/packages/cli/dist/cli.js" sign "$PACKAGE" \
+          ${EXPECTED_HEAD:+--expect-head-sha "$EXPECTED_HEAD"} "${verify_only[@]}"
+        "$NODE_BIN" -e 'process.stdout.write("verdict=" + JSON.parse(require("fs").readFileSync(process.argv[1] + "/verdict.json", "utf8")).verdict + "\n")' "$PACKAGE" >> "$GITHUB_OUTPUT"
+
+    # Every step from here runs the gate's own code after candidate code may have run (in `all`
+    # mode). Each one re-checks the pinned digest first and runs node by the absolute path pinned
+    # before the checks, under a scrubbed environment (`env -i`), so a planted CLI, a replaced
+    # node, or a hijacked PATH/NODE_OPTIONS does not get executed.
+    #
+    # Not in verify mode: annotations from the job that ran candidate code are the candidate's to
+    # forge (it can print `::error` lines itself), so the seal job is the one that publishes them.
+    - name: Annotate
+      if: ${{ inputs.mode != 'verify' }}
+      shell: bash
+      env:
+        NODE_BIN: ${{ steps.pin.outputs.node }}
+        COSIGN_DIR: ${{ steps.pin.outputs.cosign-dir }}
+        DIGEST: ${{ steps.pin.outputs.digest }}
+        PACKAGE: ${{ steps.pin.outputs.package }}
+      run: |
+        sha() { if [ -x /usr/bin/sha256sum ]; then /usr/bin/sha256sum "$@"; else /usr/bin/shasum -a 256 "$@"; fi; }
+        cd "$GITHUB_ACTION_PATH"
+        cosign_bin="${COSIGN_DIR:+$COSIGN_DIR/cosign}"
+        now=$( { sha "$NODE_BIN"; [ -n "$cosign_bin" ] && sha "$cosign_bin"; \
+          find packages/cli/dist packages/verification/dist -type f | LC_ALL=C sort | while read -r f; do sha "$f"; done; \
+          ls -l node_modules/@windkeel/; } | sha | cut -d' ' -f1)
+        if [ "$now" != "$DIGEST" ]; then
+          echo "::error title=Windkeel Gate::the gate's own code or node changed after it was pinned — refusing to run it"
+          exit 1
+        fi
+        /usr/bin/env -i PATH="/usr/bin:/bin" HOME="$HOME" GITHUB_STEP_SUMMARY="$GITHUB_STEP_SUMMARY" \
+          "$NODE_BIN" "$GITHUB_ACTION_PATH/packages/cli/dist/cli.js" annotate "$PACKAGE"
+
+    - name: Upload evidence package
+      if: ${{ inputs.mode != 'verify' && inputs.upload-artifact == 'true' }}
+      uses: actions/upload-artifact@v7
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: ${{ steps.pin.outputs.package }}
+        if-no-files-found: error
+        include-hidden-files: true
+
+    # Re-verify the package rather than trusting the verdict the previous step printed: the
+    # gate's decision is a recomputation from the artifact the maintainer can download, and
+    # the signature is checked against this repository's own workflow identity — anchored, so a
+    # bundle signed by `OWNER/REPO-evil` (a sibling whose name merely starts with this one's) does
+    # not satisfy it. When signing was asked for, --require-signature makes a silently unsigned
+    # package (missing cosign, missing `id-token: write`) fail loudly instead of gating on an
+    # unattributable package.
+    - name: Gate
+      if: ${{ inputs.gate == 'true' && inputs.mode != 'verify' }}
+      shell: bash
+      env:
+        NODE_BIN: ${{ steps.pin.outputs.node }}
+        COSIGN_DIR: ${{ steps.pin.outputs.cosign-dir }}
+        DIGEST: ${{ steps.pin.outputs.digest }}
+        PACKAGE: ${{ steps.pin.outputs.package }}
+        GATE_LEVEL: ${{ inputs.gate-level }}
+        SIGN: ${{ inputs.sign }}
+        REPOSITORY: ${{ github.repository }}
+        SERVER_URL: ${{ github.server_url }}
+      run: |
+        sha() { if [ -x /usr/bin/sha256sum ]; then /usr/bin/sha256sum "$@"; else /usr/bin/shasum -a 256 "$@"; fi; }
+        cd "$GITHUB_ACTION_PATH"
+        cosign_bin="${COSIGN_DIR:+$COSIGN_DIR/cosign}"
+        now=$( { sha "$NODE_BIN"; [ -n "$cosign_bin" ] && sha "$cosign_bin"; \
+          find packages/cli/dist packages/verification/dist -type f | LC_ALL=C sort | while read -r f; do sha "$f"; done; \
+          ls -l node_modules/@windkeel/; } | sha | cut -d' ' -f1)
+        if [ "$now" != "$DIGEST" ]; then
+          echo "::error title=Windkeel Gate::the gate's own code or node changed after it was pinned — refusing to run it"
+          exit 1
+        fi
+        signer=()
+        if [ "$SIGN" = "true" ]; then
+          signer=(--require-signature --certificate-github-repo "$REPOSITORY")
+        fi
+        /usr/bin/env -i PATH="${COSIGN_DIR:+$COSIGN_DIR:}/usr/bin:/bin" HOME="$HOME" GITHUB_SERVER_URL="$SERVER_URL" \
+          "$NODE_BIN" "$GITHUB_ACTION_PATH/packages/cli/dist/cli.js" verify-package "$PACKAGE" \
+          "--gate=$GATE_LEVEL" "${signer[@]}"

@@ -1,0 +1,33 @@
+name: The verifier got it wrong
+description: A pass that should have failed, a fail that should have passed, or a finding that is not real.
+labels: [verdict, needs-triage]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What went wrong
+      options:
+        - It passed a change that should have failed
+        - It failed a change that should have passed
+        - A finding is not real
+        - A criterion was mapped to the wrong evidence
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why you think so
+      description: What the change does, and what the verifier said about it.
+    validations:
+      required: true
+  - type: textarea
+    id: package
+    attributes:
+      label: Evidence package
+      description: A link to the evidence artifact, or the relevant parts of `verdict.json` and `findings`. Remove anything private.
+  - type: input
+    id: version
+    attributes:
+      label: Version
+    validations:
+      required: true

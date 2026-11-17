@@ -1,0 +1,5 @@
+[
+  { "name": "secrets", "tool": "gitleaks", "ran": true, "note": "0 secret(s) detected", "raw": "", "findings": [] },
+  { "name": "dependencies", "tool": "osv-scanner", "ran": true, "note": "0 advisory match(es)", "raw": "", "findings": [] },
+  { "name": "patterns", "tool": "semgrep", "ran": true, "note": "0 rule match(es)", "raw": "", "findings": [] }
+]

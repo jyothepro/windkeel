@@ -1,0 +1,24 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "subject": [
+    {
+      "name": "orqon-evidence-package",
+      "digest": {
+        "sha256": "3feaf147c4ed52be784c80524319ece015fdc86be3b468b017f01056a1dc4147"
+      }
+    },
+    {
+      "name": "git:head",
+      "digest": {
+        "sha1": "9f3c2a1d8e4b7c6a5f0e1d2c3b4a5968778899aa"
+      }
+    }
+  ],
+  "predicateType": "https://orqon.dev/evidence/v0",
+  "predicate": {
+    "format": "dev.orqon.evidence/v0",
+    "verdict": "fail",
+    "pr": 12,
+    "repo": "github.com/jyothepro/orqon"
+  }
+}

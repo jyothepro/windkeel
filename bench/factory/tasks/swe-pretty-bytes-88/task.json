@@ -1,0 +1,30 @@
+{
+  "id": "swe-pretty-bytes-88",
+  "source": "swe-bench",
+  "repository": "https://github.com/jyothepro/bench-pretty-bytes",
+  "base_ref": "4186190a6d66fead27427b0c6d92b5a5b044b990",
+  "title": "prettyBytes loses precision for very large values",
+  "description": "When a value is larger than the biggest unit can show in three significant digits, `prettyBytes` must not round away its integer digits: `prettyBytes(827181 * 1e26)` should print `82718100 YB`. The same applies with the `binary` and `bits` options and with locales. Keep at least three significant digits as today, but never fewer digits than the integer part of the number has.",
+  "acceptance_criteria": [
+    "`prettyBytes(827181 * 1e26)` returns `82718100 YB`",
+    "the integer part of a value is never rounded away, with or without the `binary` option",
+    "values that fit in three significant digits format exactly as before"
+  ],
+  "hidden_tests": {
+    "command": "npm install --ignore-scripts --no-audit --no-fund --no-package-lock --loglevel=error && npx ava test.js",
+    "files": [
+      "test.js"
+    ],
+    "timeout_seconds": 600
+  },
+  "budget_usd": 2.0,
+  "timeout_minutes": 45,
+  "risk_level": "low",
+  "upstream": {
+    "repo": "https://github.com/sindresorhus/pretty-bytes",
+    "fix_commit": "c9fd9510aca6002c18280c6d768139acc4ef94fa",
+    "pull_request": "https://github.com/sindresorhus/pretty-bytes/pull/88",
+    "license": "MIT, see UPSTREAM-LICENSE"
+  },
+  "notes": "SWE-bench-style. base_ref is the upstream fix's parent; hidden/test.js is the upstream test file at fix_commit. The scratch repo must hold base_ref's history only (bench/factory/README.md, 'Scratch repositories')."
+}

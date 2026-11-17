@@ -1,0 +1,21 @@
+{
+  "organizationId": "7c3a1f0e-2b4d-4e6f-9a8b-1c2d3e4f5a6b",
+  "webhookId": "9d8c7b6a-5f4e-4d3c-8b2a-1a0b9c8d7e6f",
+  "webhookTimestamp": 1790330400000,
+  "createdAt": "2026-09-25T10:00:00.000Z",
+  "actor": {
+    "id": "u1",
+    "type": "user",
+    "name": "Ada"
+  },
+  "action": "create",
+  "type": "Comment",
+  "data": {
+    "id": "c0ffee00-1111-4222-8333-444455556666",
+    "body": "Looks good, windkeel please",
+    "issueId": "4b8c2a1d-6e5f-4a3b-9c8d-7e6f5a4b3c2d",
+    "userId": "u1",
+    "createdAt": "2026-09-25T10:00:00.000Z"
+  },
+  "url": "https://linear.app/acme/issue/ENG-42/retry-uploads-on-5xx#comment-c0ffee00"
+}

@@ -1,0 +1,77 @@
+# Windkeel gating Windkeel: every PR here is verified by the action in this repo.
+#
+# Two jobs, because the candidate's checks are untrusted code (README, "In GitHub Actions"):
+#
+#   verify — checks out the candidate and runs its checks. No `id-token` permission, so there is
+#            no OIDC endpoint for a check to reach; uploads the package unsigned.
+#   seal   — never checks out or executes the candidate. Checks out the *base* commit for the
+#            action itself, downloads the package, recomputes it, signs it with this workflow's
+#            identity, annotates, and gates.
+#
+# Residual, stated: the `pull_request` event runs this file as the PR has it, so a same-repo PR
+# can edit this workflow; and the verify job's `uses: ./` is the PR's copy of the action. For a
+# gate a PR cannot opt out of, require it through a repository ruleset ("required workflows") from
+# a protected ref, and pin a released `jyothepro/windkeel@<sha>` rather than `./`.
+name: Windkeel Gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+# A new push to the PR cancels the gate run still in progress for its older commit.
+concurrency:
+  group: windkeel-gate-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    # Drafts are skipped; marking the PR ready for review triggers the gate.
+    if: ${{ !github.event.pull_request.draft }}
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          # The checkout token would otherwise sit in .git/config, readable by every check.
+          persist-credentials: false
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      - uses: ./
+        with:
+          mode: verify
+          # Set ANTHROPIC_API_KEY in repo secrets to turn the reviewer on; without it the review
+          # stage records the change as not reviewed and the verdict is at best `warn`.
+          # The key is read in-process by the reviewer and never handed to the checks' env, but
+          # this job runs candidate code — use a key scoped and budgeted for that.
+          anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+
+  seal:
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # Sigstore keyless signing — only in the job that runs no candidate code
+    steps:
+      # The action from the base commit, never the candidate's: this job must not execute
+      # anything the change under review wrote.
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          persist-credentials: false
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      - uses: ./
+        with:
+          mode: seal
+          gate: "true"

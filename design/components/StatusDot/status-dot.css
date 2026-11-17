@@ -1,0 +1,43 @@
+/* StatusDot: the verdict of a run or stage, as a dot plus its word. data-verdict picks the
+   color: pass, warn, fail, skipped, running. Running pulses in the agent color. */
+.oq-status {
+  --_c: var(--color-verdict-skipped);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1_5);
+  color: var(--color-text-secondary);
+  font: var(--font-size-sm) / var(--line-height-sm) var(--font-sans);
+}
+.oq-status::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  flex: none;
+  border-radius: var(--radius-full);
+  background: var(--_c);
+}
+/* Skipped is hollow, so it doesn't read as a gray "pass" to anyone who can't tell the hues. */
+.oq-status[data-verdict="skipped"]::before { background: transparent; box-shadow: inset 0 0 0 1.5px var(--_c); }
+.oq-status[data-verdict="pass"] { --_c: var(--color-verdict-pass); }
+.oq-status[data-verdict="fail"] { --_c: var(--color-verdict-fail); }
+.oq-status[data-verdict="warn"] { --_c: var(--color-verdict-warn); }
+.oq-status[data-verdict="running"] { --_c: var(--color-verdict-running); }
+.oq-status[data-verdict="running"]::before { animation: oq-pulse 1.6s var(--ease-standard) infinite; }
+/* Fail is a square, pass a circle: the shape carries the verdict when color can't. */
+.oq-status[data-verdict="fail"]::before { border-radius: 2px; }
+.oq-status--dot-only { gap: 0; }
+
+/* Run marks: where a run is, not what evidence said. Run lists only — never on a stage, never
+   where a verdict belongs. Each has its own shape, so neither reads as a verdict of its color. */
+.oq-status[data-run="queued"] { --_c: var(--color-text-tertiary); }
+.oq-status[data-run="queued"]::before { background: transparent; border: 1.5px dashed var(--_c); }
+.oq-status[data-run="waiting"] { --_c: var(--color-warning-text); }
+.oq-status[data-run="waiting"]::before {
+  background: radial-gradient(circle, var(--_c) 0 1.5px, transparent 2px);
+  box-shadow: inset 0 0 0 1.5px var(--_c);
+}
+
+@keyframes oq-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--color-agent-subtle); }
+  50% { box-shadow: 0 0 0 4px var(--color-agent-subtle); }
+}

@@ -1,0 +1,28 @@
+/* Toast: brief confirmation of something the person just did. Floats above the page. */
+.oq-toast {
+  --intent-text: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  max-width: min(420px, calc(100vw - 32px));
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-xl);
+  background: var(--color-bg-overlay);
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-md);
+  font: var(--font-size-md) / var(--line-height-md) var(--font-sans);
+  animation: oq-toast-in var(--duration-slow) var(--ease-out);
+}
+.oq-toast > .oq-icon { color: var(--intent-text); }
+.oq-toast__text { flex: 1; min-width: 0; }
+.oq-toast-region {
+  position: fixed;
+  z-index: var(--z-toast);
+  bottom: calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
+  right: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+@keyframes oq-toast-in { from { opacity: 0; transform: translateY(6px); } }

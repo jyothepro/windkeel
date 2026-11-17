@@ -1,0 +1,17 @@
+{
+  "token": "legacy-verification-token-unused",
+  "team_id": "T0WINDKEEL1",
+  "api_app_id": "A0WINDKEEL1",
+  "event": {
+    "type": "app_mention",
+    "user": "U0ALICE1",
+    "text": "<@U0WINDKEELBOT> Fix the flaky login test\n- [ ] the login test passes ten times in a row",
+    "ts": "1700000100.000200",
+    "thread_ts": "1700000000.000100",
+    "channel": "C0MAPPED1",
+    "event_ts": "1700000100.000200"
+  },
+  "type": "event_callback",
+  "event_id": "Ev0MENTION1",
+  "event_time": 1700000100
+}

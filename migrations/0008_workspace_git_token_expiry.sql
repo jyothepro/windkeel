@@ -1,0 +1,12 @@
+-- Milestone 6 (ADR-0014 §2): when a workspace's scoped git token dies.
+--
+-- The token *value* is deliberately absent, and this is the column that says so out loud. A
+-- credential stored in Postgres outlives the sandbox it was scoped to and turns a database dump
+-- — or a stray `select *` in a log — into a credential dump. What an operator actually needs is
+-- the answer to "was this run still holding a live credential when it did that?", and an expiry
+-- answers it without the risk.
+--
+-- Nullable because ADR-0016's hermetic local path clones a bare repo from disk with no
+-- credential at all. Null means "no token was ever minted for this workspace", which is a
+-- meaningfully different state from "a token existed and has expired".
+alter table workspace add column git_token_expires_at timestamptz;

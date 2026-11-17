@@ -1,0 +1,23 @@
+{
+  "id": "repo-scratch-slug-diacritics",
+  "source": "real-repo",
+  "repository": "https://github.com/jyothepro/orqon-bench-scratch",
+  "base_ref": "c5c7d8f7171194c19c67be94ce50df493e198d11",
+  "title": "slugify should drop accents instead of splitting words",
+  "description": "`slugify` in `src/slug.js` treats accented letters as separators, so `Crème Brûlée` becomes `cr-me-br-l-e`. Accented Latin letters should lose their accents instead: `Crème Brûlée` should become `creme-brulee` and `São Paulo` should become `sao-paulo`. Text that is already written with combining accents should give the same slug as text written with precomposed letters. Nothing else about slugs changes.",
+  "acceptance_criteria": [
+    "`slugify('Crème Brûlée')` returns `creme-brulee`",
+    "`slugify('São Paulo')` returns `sao-paulo`",
+    "a word written with combining accent marks gives the same slug as the precomposed spelling",
+    "existing slugs are unchanged and `npm test` passes"
+  ],
+  "hidden_tests": {
+    "command": "node --test test/hidden-slug.test.js",
+    "files": ["test/hidden-slug.test.js"],
+    "timeout_seconds": 120
+  },
+  "reference_patch": "reference/correct.patch",
+  "budget_usd": 2.0,
+  "timeout_minutes": 45,
+  "risk_level": "low"
+}

@@ -1,0 +1,12 @@
+{
+  "name": "@windkeel/human-workspace-server",
+  "private": true,
+  "description": "The token-gated terminal/editor server that runs inside a human workspace VM (ADR-0029 §4). Never run on the host: its files are embedded into the factory build (src/sandbox/human-workspace-server-files.ts) and written into the VM, hash-checked, before every launch.",
+  "type": "module",
+  "engines": { "node": ">=22.18.0" },
+  "dependencies": {
+    "@xterm/addon-fit": "0.11.0",
+    "@xterm/xterm": "6.0.0",
+    "ws": "8.22.0"
+  }
+}

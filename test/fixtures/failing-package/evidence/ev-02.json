@@ -1,0 +1,24 @@
+{
+  "id": "ev-02",
+  "stage": "review",
+  "type": "review_finding_set",
+  "status": "completed_with_findings",
+  "summary": "adversarial review: 1 blocking, 1 non-blocking",
+  "findings": [
+    {
+      "id": "F1",
+      "severity": "blocking",
+      "category": "test-coverage",
+      "claim": "AC1 has no covering test: nothing asserts a non-zero exit code when a blocking finding is present",
+      "location": "src/commands/verifyPackage.ts:88",
+      "failure_scenario": "A package with blocking findings passes CI because verify-package exits 0 on integrity success"
+    },
+    {
+      "id": "F2",
+      "severity": "non_blocking",
+      "category": "maintainability",
+      "claim": "sha256 helper duplicates the node:crypto one-liner already exported from hashes.ts",
+      "location": "src/commands/verifyPackage.ts:23"
+    }
+  ]
+}

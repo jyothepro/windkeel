@@ -1,0 +1,48 @@
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: npm
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+      - run: npm ci
+      - run: npm run build:cli
+      - name: Pack the CLI as a single file
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: node scripts/pack-cli.mjs
+      - name: Smoke-test the packed CLI
+        run: |
+          node packages/cli/release/dist/cli.js 2>&1 | head -1 | grep -q "${GITHUB_REF_NAME#v}"
+      - name: Publish to npm with provenance
+        working-directory: packages/cli/release
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --provenance --access public
+      - name: Create the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          notes=$(awk -v v="## ${GITHUB_REF_NAME#v}" '$0 ~ "^## " { p = index($0, v) == 1 } p' CHANGELOG.md)
+          gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --title "$GITHUB_REF_NAME" --notes "${notes:-See CHANGELOG.md}"

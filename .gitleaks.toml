@@ -1,0 +1,12 @@
+title = "Windkeel gitleaks config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Fake keys planted on purpose: redaction, knowledge-risk and credential tests"
+paths = [
+  '''^test/''',
+  '''^bench/''',
+  '''^\.workflow-test-data/''',
+]

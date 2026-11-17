@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Windkeel workspace — terminal</title>
+<link rel="stylesheet" href="/__windkeel/vendor/xterm.css">
+<style>
+  html, body { margin: 0; height: 100%; background: #111; color: #ddd; font: 13px system-ui, sans-serif; }
+  #bar { display: flex; gap: 12px; align-items: center; padding: 6px 10px; background: #1b1b1b; }
+  #bar span { flex: 1; }
+  #term { position: absolute; top: 34px; left: 0; right: 0; bottom: 0; padding: 4px; }
+</style>
+<script src="/__windkeel/vendor/xterm.js" defer></script>
+<script src="/__windkeel/vendor/addon-fit.js" defer></script>
+<script src="/__windkeel/term.js" defer></script>
+</head>
+<body>
+<div id="bar"><span id="status">connecting…</span><button id="end" type="button">End session</button></div>
+<div id="term"></div>
+</body>
+</html>

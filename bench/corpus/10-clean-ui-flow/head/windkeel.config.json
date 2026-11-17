@@ -1,0 +1,5 @@
+{
+  "flows": [
+    { "name": "checkout", "command": "node flows/checkout.js", "artifacts": "test-results" }
+  ]
+}

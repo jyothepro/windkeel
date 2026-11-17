@@ -1,0 +1,34 @@
+diff --git a/src/duration.js b/src/duration.js
+index b02be77..50b226d 100644
+--- a/src/duration.js
++++ b/src/duration.js
+@@ -1,21 +1,24 @@
+ /**
+- * Formats a number of seconds for a person to read: `65` is `1m 5s`, `5` is `5s`.
++ * Formats a number of seconds for a person to read: `3661` is `1h 1m 1s`, `65` is `1m 5s`,
++ * `5` is `5s`.
+  */
+ export function formatDuration(totalSeconds) {
+   if (!Number.isInteger(totalSeconds) || totalSeconds < 0) {
+     throw new RangeError("totalSeconds must be a non-negative integer");
+   }
+-  const minutes = Math.floor(totalSeconds / 60);
++  const hours = Math.floor(totalSeconds / 3600);
++  const minutes = Math.floor((totalSeconds % 3600) / 60);
+   const seconds = totalSeconds % 60;
++  if (hours) return `${hours}h ${minutes}m ${seconds}s`;
+   return minutes ? `${minutes}m ${seconds}s` : `${seconds}s`;
+ }
+ 
+ /**
+  * Reads a duration written the way `formatDuration` writes one back into seconds.
+- * `"1m 5s"` is `65`. Anything it does not recognise is a `SyntaxError`.
++ * `"1h 1m 5s"` is `3665`. Anything it does not recognise is a `SyntaxError`.
+  */
+ export function parseDuration(text) {
+-  const match = /^(?:(\d+)m )?(\d+)s$/.exec(String(text).trim());
++  const match = /^(?:(\d+)h )?(?:(\d+)m )?(\d+)s$/.exec(String(text).trim());
+   if (!match) throw new SyntaxError(`not a duration: ${JSON.stringify(text)}`);
+-  return Number(match[1] ?? 0) * 60 + Number(match[2]);
++  return Number(match[1] ?? 0) * 3600 + Number(match[2] ?? 0) * 60 + Number(match[3]);
+ }

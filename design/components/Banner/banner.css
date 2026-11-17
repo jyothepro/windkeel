@@ -1,0 +1,20 @@
+/* Banner: an inline message about the thing it sits in. Info by default; data-intent colors it. */
+.oq-banner {
+  --intent-subtle: var(--color-info-subtle);
+  --intent-border: var(--color-info-border);
+  --intent-text: var(--color-info-text);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--intent-border);
+  border-radius: var(--radius-lg);
+  background: var(--intent-subtle);
+  color: var(--color-text-primary);
+  font: var(--font-size-md) / var(--line-height-md) var(--font-sans);
+}
+.oq-banner > .oq-icon { margin-top: 2px; color: var(--intent-text); }
+.oq-banner__title { display: block; color: var(--intent-text); font-weight: var(--font-weight-semibold); }
+.oq-banner__body { margin: 0; }
+.oq-banner__actions { display: flex; gap: var(--space-2); align-self: center; }

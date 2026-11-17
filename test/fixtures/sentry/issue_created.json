@@ -1,0 +1,15 @@
+{
+  "action": "created",
+  "installation": { "uuid": "7a485448-a9e2-4c85-8a3c-4f44175783c9" },
+  "data": {
+    "issue": {
+      "id": "4100000002",
+      "shortId": "CHECKOUT-WEB-1B",
+      "title": "ReferenceError: basket is not defined",
+      "culprit": "src/cart/basket.js in addItem",
+      "project": { "slug": "checkout-web" },
+      "permalink": "https://sentry.io/organizations/acme-shop/issues/4100000002/"
+    }
+  },
+  "actor": { "type": "application", "id": "sentry", "name": "Sentry" }
+}

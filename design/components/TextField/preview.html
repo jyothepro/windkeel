@@ -1,0 +1,22 @@
+<!-- @dsCard group="Forms" height=260 subtitle="Input, mono input, error, textarea" -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-5); padding: var(--space-4)">
+  <div class="oq-field">
+    <label class="oq-field__label" for="tf-repo">Repository</label>
+    <input class="oq-input oq-input--mono" id="tf-repo" value="jyothepro/windkeel" />
+    <p class="oq-field__hint" style="margin: 0">owner/name on GitHub.</p>
+  </div>
+  <div class="oq-field">
+    <label class="oq-field__label" for="tf-branch">Branch</label>
+    <input class="oq-input oq-input--mono" id="tf-branch" value="fix late merge" aria-invalid="true" aria-describedby="tf-branch-err" />
+    <p class="oq-field__error" id="tf-branch-err" style="margin: 0">Branch names can't contain spaces. Try fix-late-merge.</p>
+  </div>
+  <div class="oq-field">
+    <label class="oq-field__label" for="tf-title">Run title</label>
+    <input class="oq-input" id="tf-title" placeholder="What should the agent do?" />
+  </div>
+  <div class="oq-field" style="grid-column: 1 / -1">
+    <label class="oq-field__label" for="tf-crit">Acceptance criteria</label>
+    <textarea class="oq-input" id="tf-crit" rows="3">A merge that lands after the execution ends is adopted, not discarded.</textarea>
+    <p class="oq-field__hint" style="margin: 0">One per line. Each becomes a check in the evidence package.</p>
+  </div>
+</div>

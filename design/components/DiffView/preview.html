@@ -1,0 +1,21 @@
+<!-- @dsCard group="Agent" height=250 subtitle="One hunk with word-level emphasis" -->
+<div style="padding: var(--space-4)">
+  <div class="oq-diff">
+    <div class="oq-diff__header">
+      <span class="oq-diff__path">src/factory/run-service.ts</span>
+      <span class="oq-diff__stat-add">+4</span><span class="oq-diff__stat-remove">−1</span>
+    </div>
+    <div class="oq-diff__body">
+      <table class="oq-diff__table">
+        <tr class="oq-diff__row--hunk"><td colspan="3">@@ -140,6 +140,9 @@ export async function onMerge(run, event)</td></tr>
+        <tr><td class="oq-diff__num">140</td><td class="oq-diff__num">140</td><td class="oq-diff__code">  if (run.state === "ended") {</td></tr>
+        <tr class="oq-diff__row--remove"><td class="oq-diff__num">141</td><td class="oq-diff__num"></td><td class="oq-diff__code">    return <mark>discard(run)</mark>;</td></tr>
+        <tr class="oq-diff__row--add"><td class="oq-diff__num"></td><td class="oq-diff__num">141</td><td class="oq-diff__code">    // The execution is gone, but the merge is real: keep it.</td></tr>
+        <tr class="oq-diff__row--add"><td class="oq-diff__num"></td><td class="oq-diff__num">142</td><td class="oq-diff__code">    const adopted = <mark>adopt(run, event)</mark>;</td></tr>
+        <tr class="oq-diff__row--add"><td class="oq-diff__num"></td><td class="oq-diff__num">143</td><td class="oq-diff__code">    await report(adopted, "adopted after execution ended");</td></tr>
+        <tr class="oq-diff__row--add"><td class="oq-diff__num"></td><td class="oq-diff__num">144</td><td class="oq-diff__code">    return adopted;</td></tr>
+        <tr><td class="oq-diff__num">142</td><td class="oq-diff__num">145</td><td class="oq-diff__code">  }</td></tr>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+{
+  "id": "ev-03",
+  "stage": "browser",
+  "type": "browser_flow",
+  "status": "skipped",
+  "reason": "not_applicable \u2014 diff touches CLI source only; no UI surface detected"
+}

@@ -1,0 +1,65 @@
+/* Intents. Put data-intent on a Badge, Banner, Toast or Button and it takes that intent's
+   colors through five variables, so each component is written once:
+
+     --intent-solid, --intent-solid-hover, --intent-on-solid, --intent-subtle,
+     --intent-border, --intent-text
+
+   Loaded LAST so that on the same element [data-intent] beats a component's own neutral
+   defaults, while a nested component without data-intent keeps its own. */
+
+[data-intent="neutral"] {
+  --intent-solid: var(--color-bg-inverse);
+  --intent-solid-hover: var(--color-bg-inverse);
+  --intent-on-solid: var(--color-text-inverse);
+  --intent-subtle: var(--color-bg-hover);
+  --intent-border: var(--color-border-subtle);
+  --intent-text: var(--color-text-secondary);
+}
+[data-intent="accent"] {
+  --intent-solid: var(--color-accent-solid);
+  --intent-solid-hover: var(--color-accent-solid-hover);
+  --intent-on-solid: var(--color-accent-on-solid);
+  --intent-subtle: var(--color-accent-subtle);
+  --intent-border: var(--color-accent-border);
+  --intent-text: var(--color-accent-text);
+}
+[data-intent="agent"] {
+  --intent-solid: var(--color-agent-solid);
+  --intent-solid-hover: var(--color-agent-solid-hover);
+  --intent-on-solid: var(--color-agent-on-solid);
+  --intent-subtle: var(--color-agent-subtle);
+  --intent-border: var(--color-agent-border);
+  --intent-text: var(--color-agent-text);
+}
+[data-intent="success"] {
+  --intent-solid: var(--color-success-solid);
+  --intent-solid-hover: var(--color-success-solid-hover);
+  --intent-on-solid: var(--color-success-on-solid);
+  --intent-subtle: var(--color-success-subtle);
+  --intent-border: var(--color-success-border);
+  --intent-text: var(--color-success-text);
+}
+[data-intent="warning"] {
+  --intent-solid: var(--color-warning-solid);
+  --intent-solid-hover: var(--color-warning-solid-hover);
+  --intent-on-solid: var(--color-warning-on-solid);
+  --intent-subtle: var(--color-warning-subtle);
+  --intent-border: var(--color-warning-border);
+  --intent-text: var(--color-warning-text);
+}
+[data-intent="danger"] {
+  --intent-solid: var(--color-danger-solid);
+  --intent-solid-hover: var(--color-danger-solid-hover);
+  --intent-on-solid: var(--color-danger-on-solid);
+  --intent-subtle: var(--color-danger-subtle);
+  --intent-border: var(--color-danger-border);
+  --intent-text: var(--color-danger-text);
+}
+[data-intent="info"] {
+  --intent-solid: var(--color-info-solid);
+  --intent-solid-hover: var(--color-info-solid-hover);
+  --intent-on-solid: var(--color-info-on-solid);
+  --intent-subtle: var(--color-info-subtle);
+  --intent-border: var(--color-info-border);
+  --intent-text: var(--color-info-text);
+}

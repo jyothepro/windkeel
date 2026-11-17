@@ -1,0 +1,10 @@
+[
+  { "reason": "VERCEL_TOKEN/VERCEL_TEAM_ID/VERCEL_PROJECT_ID not set", "max": 7, "why": "PR jobs hold no secrets (ORQ-03); these run in the main-only sandbox job, which allows no skips" },
+  { "reason": "no sandbox credentials", "max": 2, "why": "same as above" },
+  { "reason": "STRIPE_TEST_SECRET_KEY not set", "max": 4, "why": "PR jobs hold no secrets (ORQ-03)" },
+  { "reason": "set WINDKEEL_DEPLOYED_E2E_URL", "max": 1, "why": "needs a throwaway deployment; operator-run" },
+  { "reason": "osv-scanner is not installed on this runner", "max": 1, "why": "not installed in CI yet" },
+  { "reason": "semgrep is not installed on this runner", "max": 1, "why": "not installed in CI yet" },
+  { "reason": "no live Codex captures committed yet", "max": 1, "why": "#386 sub-task A, an operator step" },
+  { "reason": "run `npm run -w @windkeel/ingress build:vercel` first", "max": 3, "why": "prebuilding races the two test files that rebuild the same output dir; give the preflight test its own build to remove this" }
+]

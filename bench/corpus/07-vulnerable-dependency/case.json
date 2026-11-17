@@ -1,0 +1,12 @@
+{
+  "id": "07-vulnerable-dependency",
+  "kind": "seeded",
+  "category": "dependency",
+  "expect": "fail",
+  "defect": "a dependency is moved back to a version carrying a critical advisory",
+  "stage": "security",
+  "note": "The package and advisory are fixture identifiers, not real ones: the corpus must not assert claims about a real ecosystem that it has not verified.",
+  "env": {
+    "WINDKEEL_FAKE_SECURITY": "security.json"
+  }
+}

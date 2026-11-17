@@ -1,0 +1,16 @@
+<!-- @dsCard group="Agent" height=150 subtitle="With attached context" -->
+<div style="padding: var(--space-4); max-width: 720px">
+  <form class="oq-composer" onsubmit="event.preventDefault()">
+    <label class="oq-sr-only" for="composer-input">Message Windkeel</label>
+    <textarea class="oq-composer__input" id="composer-input" rows="1" placeholder="Reply to Windkeel, or @ a file…"></textarea>
+    <div class="oq-composer__toolbar">
+      <button type="button" class="oq-button oq-button--ghost oq-button--sm oq-button--icon" aria-label="Attach a file">
+        <svg class="oq-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11l-8.5 8.5a5 5 0 0 1-7-7L13 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L14 7"/></svg>
+      </button>
+      <span class="oq-composer__chip">run-service.ts</span>
+      <span class="oq-composer__chip">main</span>
+      <span class="oq-composer__spacer"></span>
+      <button type="submit" class="oq-button oq-button--primary oq-button--sm">Send <span class="oq-button__hint">⌘↵</span></button>
+    </div>
+  </form>
+</div>

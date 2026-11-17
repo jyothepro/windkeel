@@ -1,0 +1,3 @@
+import assert from "node:assert/strict";
+import { sum } from "./sum.js";
+assert.equal(sum([1, 2, 3]), 6);

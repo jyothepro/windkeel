@@ -1,0 +1,33 @@
+/* Terminal: command output. Sunken, mono, never wraps — scrolls sideways instead. */
+.oq-terminal {
+  overflow: hidden;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-sunken);
+}
+.oq-terminal__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1_5) var(--space-3);
+  border-bottom: 1px solid var(--color-border-subtle);
+  color: var(--color-text-secondary);
+  font: var(--font-size-sm) / var(--line-height-sm) var(--font-mono);
+}
+.oq-terminal__title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.oq-terminal__body {
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  overflow-x: auto;
+  color: var(--color-text-secondary);
+  font: var(--font-size-sm) / var(--line-height-code-sm) var(--font-mono);
+  white-space: pre;
+  tab-size: 2;
+}
+.oq-terminal__cmd { color: var(--color-text-primary); }
+.oq-terminal__cmd::before { content: "$ "; color: var(--color-text-tertiary); user-select: none; }
+.oq-terminal__ok { color: var(--color-success-text); }
+.oq-terminal__err { color: var(--color-danger-text); }
+.oq-terminal__warn { color: var(--color-warning-text); }
+.oq-terminal__dim { color: var(--color-text-tertiary); }
+.oq-terminal__link { color: var(--color-text-link); text-decoration: underline; text-underline-offset: 2px; }

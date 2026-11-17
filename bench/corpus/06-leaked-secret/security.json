@@ -1,0 +1,21 @@
+[
+  {
+    "name": "secrets",
+    "tool": "gitleaks",
+    "ran": true,
+    "note": "1 secret(s) detected",
+    "raw": "deploy/config.json:3: generic-api-key (redacted)\n",
+    "findings": [
+      {
+        "id": "SEC-SECRET-1",
+        "severity": "blocking",
+        "category": "secret",
+        "claim": "Generic API key committed to the repository",
+        "location": "deploy/config.json:3",
+        "failure_scenario": "The credential is readable by anyone with repository access and by anything that has already mirrored the history; it must be rotated, not just removed"
+      }
+    ]
+  },
+  { "name": "dependencies", "tool": "osv-scanner", "ran": true, "note": "0 advisory match(es)", "raw": "", "findings": [] },
+  { "name": "patterns", "tool": "semgrep", "ran": true, "note": "0 rule match(es)", "raw": "", "findings": [] }
+]

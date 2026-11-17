@@ -1,0 +1,19 @@
+{
+  "id": "express-4891-sync-stack",
+  "kind": "replay",
+  "upstream": {
+    "repo": "expressjs/express",
+    "clone_url": "https://github.com/expressjs/express.git",
+    "pr": null,
+    "base_sha": "92c5ce59f51cce4b3598fd040117772fac42dce8",
+    "head_sha": "708ac4cdf5cd0a658d62490a9f4d78d3e1ec6612",
+    "subject": "Fix handling very large stacks of sync middleware"
+  },
+  "surfaced": {
+    "how": "fixed",
+    "commit": "7ec5dd2b3c5e7379f68086dae72859f5573c8b9b",
+    "subject": "Fix regression routing a large stack in a single route",
+    "description": "The new sync-recursion guard was placed after `var layer = stack[idx++]` in Route.prototype.dispatch, so when the 101st synchronous hop tripped the guard, idx had already advanced past the fetched layer and that handler was never invoked - every 101st route handler was silently skipped. Shipped in 4.18.0 and fixed in 4.18.2, so the regression reached released users."
+  },
+  "expect": "fail"
+}

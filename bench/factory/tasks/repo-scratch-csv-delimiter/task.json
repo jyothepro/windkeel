@@ -1,0 +1,23 @@
+{
+  "id": "repo-scratch-csv-delimiter",
+  "source": "real-repo",
+  "repository": "https://github.com/jyothepro/orqon-bench-scratch",
+  "base_ref": "c5c7d8f7171194c19c67be94ce50df493e198d11",
+  "title": "Let parseLine split on a delimiter other than a comma",
+  "description": "`parseLine` in `src/csv.js` only splits on commas, and some of our files use semicolons or tabs. Add an options argument, `parseLine(line, { delimiter })`, with a comma as the default. Quoting works the same whatever the delimiter: a quoted field may contain the delimiter, and a doubled quote inside one is a literal quote. With another delimiter, a comma is an ordinary character.",
+  "acceptance_criteria": [
+    "`parseLine('a;b;c', { delimiter: ';' })` returns `['a', 'b', 'c']`",
+    "`parseLine('\"a;b\";c', { delimiter: ';' })` returns `['a;b', 'c']`",
+    "with a delimiter other than a comma, commas are kept inside fields",
+    "calling `parseLine(line)` without options behaves exactly as before, and `npm test` passes"
+  ],
+  "hidden_tests": {
+    "command": "node --test test/hidden-csv.test.js",
+    "files": ["test/hidden-csv.test.js"],
+    "timeout_seconds": 120
+  },
+  "reference_patch": "reference/correct.patch",
+  "budget_usd": 2.0,
+  "timeout_minutes": 45,
+  "risk_level": "low"
+}

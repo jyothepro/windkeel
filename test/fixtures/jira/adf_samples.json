@@ -1,0 +1,94 @@
+{
+  "paragraphs": {
+    "doc": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        { "type": "paragraph", "content": [{ "type": "text", "text": "First line" }, { "type": "hardBreak" }, { "type": "text", "text": "second line" }] },
+        { "type": "paragraph", "content": [{ "type": "text", "text": "Next paragraph" }] }
+      ]
+    },
+    "text": "First line\nsecond line\n\nNext paragraph"
+  },
+  "headings": {
+    "doc": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        { "type": "heading", "attrs": { "level": 1 }, "content": [{ "type": "text", "text": "Title" }] },
+        { "type": "heading", "attrs": { "level": 3 }, "content": [{ "type": "text", "text": "Sub" }] }
+      ]
+    },
+    "text": "# Title\n\n### Sub"
+  },
+  "nestedLists": {
+    "doc": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "bulletList",
+          "content": [
+            {
+              "type": "listItem",
+              "content": [
+                { "type": "paragraph", "content": [{ "type": "text", "text": "one" }] },
+                {
+                  "type": "orderedList",
+                  "attrs": { "order": 3 },
+                  "content": [
+                    { "type": "listItem", "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "three" }] }] },
+                    { "type": "listItem", "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "four" }] }] }
+                  ]
+                }
+              ]
+            },
+            { "type": "listItem", "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "two" }] }] }
+          ]
+        }
+      ]
+    },
+    "text": "- one\n  3. three\n  4. four\n- two"
+  },
+  "code": {
+    "doc": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        { "type": "paragraph", "content": [{ "type": "text", "text": "Run " }, { "type": "text", "text": "npm test", "marks": [{ "type": "code" }] }] },
+        { "type": "codeBlock", "attrs": { "language": "js" }, "content": [{ "type": "text", "text": "const a = 1;\nconsole.log(a);" }] }
+      ]
+    },
+    "text": "Run `npm test`\n\n```js\nconst a = 1;\nconsole.log(a);\n```"
+  },
+  "links": {
+    "doc": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            { "type": "text", "text": "See " },
+            { "type": "text", "text": "the docs", "marks": [{ "type": "link", "attrs": { "href": "https://example.com/docs" } }] },
+            { "type": "text", "text": " and " },
+            { "type": "inlineCard", "attrs": { "url": "https://example.com/card" } }
+          ]
+        }
+      ]
+    },
+    "text": "See [the docs](https://example.com/docs) and https://example.com/card"
+  },
+  "unknown": {
+    "doc": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        { "type": "panel", "attrs": { "panelType": "info" }, "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "Inside a panel" }] }] },
+        { "type": "someFutureNode", "content": [{ "type": "text", "text": "future words" }] },
+        { "type": "paragraph", "content": [{ "type": "mention", "attrs": { "id": "x", "text": "@Mia" } }, { "type": "weirdInline", "text": " keeps text" }] }
+      ]
+    },
+    "text": "Inside a panel\n\nfuture words\n\n@Mia keeps text"
+  }
+}

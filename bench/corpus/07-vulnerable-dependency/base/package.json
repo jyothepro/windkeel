@@ -1,0 +1,7 @@
+{
+  "name": "case-07",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": { "test": "node test.js" },
+  "dependencies": { "@windkeel-fixture/archive": "3.1.0" }
+}

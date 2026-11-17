@@ -1,0 +1,4 @@
+{
+  "about": "Provenance for every test/fixtures/codex/live-*.jsonl: the live run and turn it was captured from, the `codex --version` output in that sandbox, and how the turn ended. Written by test/tools/import-codex-capture.mjs; checked by test/worker-codex-live-fixtures.test.js. Empty until the operator's capture (#386 sub-task A).",
+  "fixtures": {}
+}

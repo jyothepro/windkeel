@@ -1,0 +1,12 @@
+{
+  "id": "06-leaked-secret",
+  "kind": "seeded",
+  "category": "secret",
+  "expect": "fail",
+  "defect": "a credential is committed in deploy/config.json while the repo's own checks stay green",
+  "stage": "security",
+  "note": "The planted string is an obvious placeholder, not a live-looking key: the scanner is scripted at the scanner boundary, so the fixture must not smuggle a credential-shaped string into git history.",
+  "env": {
+    "WINDKEEL_FAKE_SECURITY": "security.json"
+  }
+}

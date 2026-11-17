@@ -1,0 +1,35 @@
+/* Spinner: a ring for "waiting on a request". Thinking: three dots for "the agent is
+   reasoning" — deliberately a different shape, in the agent color. */
+.oq-spinner {
+  display: inline-block;
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+  flex: none;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: var(--radius-full);
+  opacity: 0.8;
+  animation: oq-spin 0.7s linear infinite;
+}
+.oq-spinner--md { width: var(--icon-md); height: var(--icon-md); }
+
+.oq-thinking {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1_5);
+  color: var(--color-agent-text);
+  font: var(--font-size-sm) / var(--line-height-sm) var(--font-sans);
+}
+.oq-thinking__dots { display: inline-flex; gap: 3px; }
+.oq-thinking__dots i {
+  width: 5px;
+  height: 5px;
+  border-radius: var(--radius-full);
+  background: var(--color-agent-solid);
+  animation: oq-bob 1.2s var(--ease-standard) infinite;
+}
+.oq-thinking__dots i:nth-child(2) { animation-delay: 0.15s; }
+.oq-thinking__dots i:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes oq-spin { to { transform: rotate(360deg); } }
+@keyframes oq-bob { 0%, 60%, 100% { opacity: 0.35; transform: none; } 30% { opacity: 1; transform: translateY(-2px); } }

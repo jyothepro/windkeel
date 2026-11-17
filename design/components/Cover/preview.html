@@ -1,0 +1,39 @@
+<!-- @dsCard height=288 -->
+<div class="cv">
+  <style>
+    .cv { position: relative; width: 960px; height: 288px; overflow: hidden; background: var(--color-bg-canvas); }
+    .cv svg { position: absolute; inset: 0; }
+    .cv .iris { fill: var(--iris-9); rx: var(--radius-lg); }
+    .cv .ink { fill: var(--neutral-12); rx: var(--radius-lg); }
+    .cv .agent { fill: var(--cyan-9); }
+    .cv .pass { fill: var(--green-9); rx: var(--radius-md); }
+    .cv .dot { fill: var(--color-accent-on-solid); opacity: 0.55; }
+    .cv .dot.on { fill: var(--cyan-9); opacity: 1; }
+    .cv .txt { position: absolute; left: 40px; bottom: 36px; max-width: 440px; }
+    .cv h1 { margin: 0; color: var(--color-text-primary); font: 600 120px/0.92 var(--font-sans); letter-spacing: -0.045em; }
+    .cv p { margin: 12px 0 0; color: var(--color-text-secondary); font: 400 14px/20px var(--font-sans); }
+  </style>
+  <svg viewBox="0 0 960 288" width="960" height="288" aria-hidden="true">
+    <!--
+      blocks: iris-9 224x192 (brand, largest), neutral-12 160x224 (ink), cyan-9 112x48 pill (agent), green-9 48x48 (pass)
+      arrangement: flush modular grid right of x=528, 16px (space-4) gutters, ink slab bleeding off the bottom edge
+      pattern: dot grid at a 32px (space-8) pitch across the iris block — "precise, technical, mono, a 4px grid"; Windkeel is a verifier, and one dot in cyan is the agent at work inside the grid
+      scales: space-4 gutters, space-8 pitch; radius-lg on the slabs, radius-md on the pass tile, pill = half of 48
+    -->
+    <rect class="iris" x="528" y="32" width="224" height="192" />
+    <rect class="ink" x="768" y="32" width="160" height="272" />
+    <rect class="agent" x="528" y="240" width="112" height="48" rx="24" />
+    <rect class="pass" x="656" y="240" width="48" height="48" />
+    <g>
+      <circle class="dot" cx="560" cy="64" r="2" /><circle class="dot" cx="592" cy="64" r="2" /><circle class="dot" cx="624" cy="64" r="2" /><circle class="dot" cx="656" cy="64" r="2" /><circle class="dot" cx="688" cy="64" r="2" /><circle class="dot" cx="720" cy="64" r="2" />
+      <circle class="dot" cx="560" cy="96" r="2" /><circle class="dot" cx="592" cy="96" r="2" /><circle class="dot" cx="624" cy="96" r="2" /><circle class="dot" cx="656" cy="96" r="2" /><circle class="dot" cx="688" cy="96" r="2" /><circle class="dot" cx="720" cy="96" r="2" />
+      <circle class="dot" cx="560" cy="128" r="2" /><circle class="dot" cx="592" cy="128" r="2" /><circle class="dot" cx="624" cy="128" r="2" /><circle class="dot on" cx="656" cy="128" r="4" /><circle class="dot" cx="688" cy="128" r="2" /><circle class="dot" cx="720" cy="128" r="2" />
+      <circle class="dot" cx="560" cy="160" r="2" /><circle class="dot" cx="592" cy="160" r="2" /><circle class="dot" cx="624" cy="160" r="2" /><circle class="dot" cx="656" cy="160" r="2" /><circle class="dot" cx="688" cy="160" r="2" /><circle class="dot" cx="720" cy="160" r="2" />
+      <circle class="dot" cx="560" cy="192" r="2" /><circle class="dot" cx="592" cy="192" r="2" /><circle class="dot" cx="624" cy="192" r="2" /><circle class="dot" cx="656" cy="192" r="2" /><circle class="dot" cx="688" cy="192" r="2" /><circle class="dot" cx="720" cy="192" r="2" />
+    </g>
+  </svg>
+  <div class="txt">
+    <h1>Windkeel</h1>
+    <p>Independent verification for whatever wrote the change.</p>
+  </div>
+</div>

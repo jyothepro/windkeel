@@ -1,0 +1,4 @@
+{
+  "summary": "Trailing and leading separators are trimmed; the change is covered by a new assertion and I could not construct an input it regresses.",
+  "findings": []
+}

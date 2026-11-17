@@ -1,0 +1,186 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Every job here runs the checked-out code: `npm ci` lifecycle scripts, the typecheck, the tests.
+# On a pull request that is the PR's code, and the factory's maker opens same-repo PRs whose
+# package.json and tests it wrote (ORQ-03). So the token is read-only, and no job a pull request
+# runs names a secret: the sandbox-backed tests that need one run in `sandbox`, on main only.
+# test/ci-workflow-secrets.test.js holds this file to that.
+permissions:
+  contents: read
+
+# A new push to a pull request cancels that PR's run still in progress; pushes to main never cancel.
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    # Pull requests only: a push to main is a PR that already passed here, so re-running the
+    # whole suite on merge costs Actions minutes and catches nothing new. Main keeps `sandbox`.
+    if: github.event_name == 'pull_request'
+    # Matches docker-compose.yml's local-dev Postgres (ADR-0016 §4) so the factory's
+    # database-backed tests (repositories, run service, cost ledger, rails integration,
+    # evidence storage/retention, metrics views) actually run here instead of skipping —
+    # every one of them is written to skip cleanly when TEST_DATABASE_URL is unset, which
+    # otherwise means CI passes green while never exercising that code.
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: windkeel
+          POSTGRES_PASSWORD: windkeel
+          POSTGRES_DB: windkeel
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U windkeel -d windkeel"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      TEST_DATABASE_URL: postgresql://windkeel:windkeel@localhost:5432/windkeel
+      # No Vercel credentials here (ORQ-03): the sandbox-backed tests skip cleanly without them,
+      # and run for real in the `sandbox` job below.
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # The checkout token would otherwise sit in .git/config, readable by every script.
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+
+      # The console's browser test (test/e2e-factory-loop.test.js) drives headless Chromium. Only
+      # the headless shell, and its system libraries; the test skips, by name, where it's missing.
+      # The browser download is cached by playwright-core's installed version; the system libraries
+      # still come from apt each run (they live outside the cache).
+      - name: Read playwright-core's version
+        id: playwright
+        run: echo "version=$(node -p 'require("playwright-core/package.json").version')" >> "$GITHUB_OUTPUT"
+      - name: Cache Chromium
+        id: chromium-cache
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: chromium-${{ runner.os }}-${{ steps.playwright.outputs.version }}
+      - name: Install Chromium for the browser test
+        if: steps.chromium-cache.outputs.cache-hit != 'true'
+        run: npx playwright-core install --with-deps chromium-headless-shell
+      - name: Install Chromium's system libraries
+        if: steps.chromium-cache.outputs.cache-hit == 'true'
+        run: npx playwright-core install-deps chromium-headless-shell
+
+      # The secrets corpus case runs the real gitleaks binary — a single static binary that
+      # operates offline. Pinned, because the corpus is only a regression suite if the
+      # detector it exercises does not move under it. Installed before the tests so the
+      # bench suite exercises the real scanner rather than reporting the case unscored.
+      - name: Install gitleaks
+        env:
+          GITLEAKS_VERSION: 8.18.4
+        run: |
+          curl -sSfL -o /tmp/gitleaks.tar.gz \
+            "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          sudo tar -xzf /tmp/gitleaks.tar.gz -C /usr/local/bin gitleaks
+          gitleaks version
+
+      - run: npm run arch:check
+      - run: npm run invariant:check
+      - run: npm run lint
+      # The console is its own Next app: the root typecheck and test glob never reach it.
+      - run: npm run typecheck -w @windkeel/console
+      - run: npm test -w @windkeel/console
+      # The runner has 2 cores, so node's default (cores - 1) runs one test file at a time.
+      # Each database-backed file migrates its own schema, so files are safe to run side by side.
+      - run: npm run test:ci
+      # A skipped test passes. Every skip must have a reason listed in test/skip-budget.json, so a
+      # broken service or a missing tool fails here instead of quietly shrinking the suite.
+      - run: npm run test:skip-budget
+      # A regression in detection power is a silent failure otherwise: the gate keeps
+      # passing PRs while catching less. --require-tools means a case that cannot run on
+      # the runner fails the job instead of quietly shrinking the corpus.
+      # `npm run windkeel` resolves the published CLI's built entry, so this step cannot drift
+      # from where the build puts it the way a hardcoded path just did.
+      # test:ci has just built, so the bench reuses that build.
+      - run: npm run windkeel -- bench bench/corpus --require-tools
+
+  # The TLA+ model of the run lifecycle (formal/), checked exhaustively by TLC. The tools jar is
+  # pinned by sha256 in scripts/formal-check.mjs. test/formal-model-sync.test.js keeps the model's
+  # transition table equal to the code's, so a pass here is about the code, not a stale model.
+  formal:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: Cache the TLA+ tools
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/windkeel-tla
+          key: tla2tools-${{ hashFiles('scripts/formal-check.mjs') }}
+      - run: npm run formal:check
+
+  # The sandbox-backed tests (test/sandbox-vercel.test.js), against a real Vercel Sandbox. They
+  # need the Vercel credentials, so they run only on a push to main: code a person reviewed and
+  # merged, never a pull request's head (ORQ-03). The secrets sit on the test step alone, not on
+  # checkout, npm ci or the build.
+  sandbox:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - run: npm ci
+      # Saves the Chromium download on main, where every pull request's `checks` run can restore
+      # it (a cache saved by one pull request is visible only to that pull request).
+      - name: Read playwright-core's version
+        id: playwright
+        run: echo "version=$(node -p 'require("playwright-core/package.json").version')" >> "$GITHUB_OUTPUT"
+      - name: Cache Chromium
+        id: chromium-cache
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: chromium-${{ runner.os }}-${{ steps.playwright.outputs.version }}
+      - name: Download Chromium into the cache
+        if: steps.chromium-cache.outputs.cache-hit != 'true'
+        run: npx playwright-core install chromium-headless-shell
+      - name: Save Chromium before credential-backed tests
+        if: steps.chromium-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: chromium-${{ runner.os }}-${{ steps.playwright.outputs.version }}
+      - run: npm run build
+      - name: Sandbox-backed tests
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_TEAM_ID: ${{ secrets.VERCEL_TEAM_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: >-
+          node --test --test-force-exit
+          --test-reporter=tap --test-reporter-destination=stdout
+          --test-reporter=tap --test-reporter-destination=sandbox-results.tap
+          test/sandbox-vercel.test.js
+      # This job exists to run against a real sandbox, so no skip is allowed: missing credentials
+      # fail it rather than passing with nothing tested.
+      - run: node scripts/skip-budget.mjs sandbox-results.tap

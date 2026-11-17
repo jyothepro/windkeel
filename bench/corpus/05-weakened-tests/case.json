@@ -1,0 +1,11 @@
+{
+  "id": "05-weakened-tests",
+  "kind": "seeded",
+  "category": "weakened-tests",
+  "expect": "fail",
+  "defect": "a bounds check is dropped and the assertions covering it are deleted in the same change, so the suite stays green",
+  "stage": "review",
+  "env": {
+    "WINDKEEL_FAKE_REVIEWER": "reviewer.json"
+  }
+}

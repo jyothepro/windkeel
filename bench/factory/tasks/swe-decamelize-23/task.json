@@ -1,0 +1,29 @@
+{
+  "id": "swe-decamelize-23",
+  "source": "swe-bench",
+  "repository": "https://github.com/jyothepro/bench-decamelize",
+  "base_ref": "9ac3cb535f46e08eedb6ac7417e9bc26f5ff58bf",
+  "title": "decamelize splits an all-caps word that ends with a number",
+  "description": "A capitalised word that ends in a number is split in two: `decamelize('CAPLOCKED1')` should return `caplocked1`, because an all-uppercase run followed by digits is one word. Fix it without changing how an acronym followed by a capitalised word is handled (`URLString` is still `url_string`). Upstream issue: sindresorhus/decamelize#21.",
+  "acceptance_criteria": [
+    "`decamelize('CAPLOCKED1')` returns `caplocked1`",
+    "acronym handling such as `URLString` to `url_string` and `testGUILabel` to `test_gui_label` is unchanged"
+  ],
+  "hidden_tests": {
+    "command": "npm install --ignore-scripts --no-audit --no-fund --no-package-lock --loglevel=error && npx ava test.js",
+    "files": [
+      "test.js"
+    ],
+    "timeout_seconds": 600
+  },
+  "budget_usd": 2.0,
+  "timeout_minutes": 45,
+  "risk_level": "low",
+  "upstream": {
+    "repo": "https://github.com/sindresorhus/decamelize",
+    "fix_commit": "26c7530b4fe5674809cb91c3df2615cf065492ab",
+    "pull_request": "https://github.com/sindresorhus/decamelize/pull/23",
+    "license": "MIT, see UPSTREAM-LICENSE"
+  },
+  "notes": "SWE-bench-style. base_ref is the upstream fix's parent; hidden/test.js is the upstream test file at fix_commit. The scratch repo must hold base_ref's history only (bench/factory/README.md, 'Scratch repositories')."
+}

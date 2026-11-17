@@ -1,0 +1,35 @@
+/* Message: one turn in the transcript, from a person or the agent. */
+.oq-message {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-3);
+  max-width: var(--content-max);
+}
+.oq-message__header {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin-bottom: var(--space-0_5);
+  color: var(--color-text-tertiary);
+  font: var(--font-size-sm) / var(--line-height-sm) var(--font-sans);
+}
+.oq-message__author { color: var(--color-text-primary); font-weight: var(--font-weight-semibold); }
+.oq-message__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font: var(--font-size-base) / var(--line-height-base) var(--font-sans);
+}
+.oq-message__body > p { margin: 0; }
+.oq-message__body :not(pre) > code {
+  padding: 1px var(--space-1);
+  border-radius: var(--radius-xs);
+  background: var(--color-bg-sunken);
+  font-size: 0.9em;
+}
+/* A person's turn sits on a subtle panel so the transcript reads as an exchange. */
+.oq-message--you .oq-message__body {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-sunken);
+}

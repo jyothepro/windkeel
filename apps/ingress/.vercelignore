@@ -1,0 +1,16 @@
+# What an ingress deploy uploads (Vercel project windkeel, root directory apps/ingress).
+#
+# Here because the repository root's .vercelignore is the console's allow-list, and without a file of
+# its own this project inherits it. That list excludes the root tsconfig.json, src/ and migrations/,
+# which `cd ../.. && npm run build` needs, so the build failed before compiling anything. A project's
+# own .vercelignore takes precedence over the root one.
+#
+# A deny-list, because the ingress build really does need most of the repository. It still keeps
+# secrets, worktrees and build output from leaving the machine.
+**/node_modules
+**/dist
+**/.next
+**/.env*
+**/*.pem
+**/.vercel
+.claude

@@ -1,0 +1,25 @@
+{
+  "criteria": [
+    {
+      "id": "AC1",
+      "text": "`orqon verify-package` exits non-zero when the package contains any blocking finding",
+      "source": {
+        "kind": "pr_description",
+        "ref": "github.com/jyothepro/orqon/pull/12"
+      }
+    },
+    {
+      "id": "AC2",
+      "text": "The manifest schema validates all fixture packages in the test suite",
+      "source": {
+        "kind": "linked_issue",
+        "ref": "github.com/jyothepro/orqon/issues/11"
+      }
+    }
+  ],
+  "extraction": {
+    "method": "deterministic:checklist+acceptance-criteria-section",
+    "confidence": "high",
+    "note": "criteria quoted verbatim from the PR description and linked issue"
+  }
+}

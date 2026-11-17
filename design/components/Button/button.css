@@ -1,0 +1,65 @@
+/* Button. Secondary by default; --primary, --ghost and --danger change the fill, --sm/--lg the
+   size, --icon makes it square. Put a spinner inside and set aria-busy="true" while working. */
+
+.oq-button {
+  --_h: var(--control-md);
+  --_px: var(--space-3);
+  --_fs: var(--font-size-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1_5);
+  height: var(--_h);
+  padding-inline: var(--_px);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-surface);
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-xs);
+  font: var(--font-weight-medium) var(--_fs) / 1 var(--font-sans);
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard);
+}
+.oq-button:hover { background: var(--color-bg-hover); }
+.oq-button:active { background: var(--color-bg-active); }
+
+.oq-button--primary {
+  background: var(--color-accent-solid);
+  border-color: transparent;
+  color: var(--color-accent-on-solid);
+}
+.oq-button--primary:hover { background: var(--color-accent-solid-hover); }
+.oq-button--primary:active { background: var(--color-accent-solid-hover); }
+
+.oq-button--danger {
+  background: var(--color-danger-solid);
+  border-color: transparent;
+  color: var(--color-danger-on-solid);
+}
+.oq-button--danger:hover,
+.oq-button--danger:active { background: var(--color-danger-solid-hover); }
+
+.oq-button--ghost {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  color: var(--color-text-secondary);
+}
+.oq-button--ghost:hover { background: var(--color-bg-hover); color: var(--color-text-primary); }
+
+.oq-button--sm { --_h: var(--control-sm); --_px: var(--space-2); --_fs: var(--font-size-sm); }
+.oq-button--lg { --_h: var(--control-lg); --_px: var(--space-4); --_fs: var(--font-size-base); }
+.oq-button--icon { width: var(--_h); padding-inline: 0; }
+
+.oq-button:disabled,
+.oq-button[aria-disabled="true"] { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
+.oq-button[aria-busy="true"] { cursor: progress; }
+
+/* A trailing keyboard hint, e.g. ⌘↵ on Send. */
+.oq-button__hint { margin-inline-start: var(--space-1); opacity: 0.7; font: var(--font-size-xs) / 1 var(--font-mono); }

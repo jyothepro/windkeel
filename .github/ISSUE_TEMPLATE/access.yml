@@ -1,0 +1,40 @@
+name: Request access or a commercial license
+description: Ask for an invite to the managed Windkeel factory, or for a license to use Windkeel commercially.
+title: "Access request: "
+labels: [access-request]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This issue is public. If you would rather not share these details here, leave them out and we will follow up privately.
+  - type: input
+    id: who
+    attributes:
+      label: Who you are
+      description: Your name, and your team or company if you want to share it.
+  - type: textarea
+    id: use
+    attributes:
+      label: What you would use it for
+      description: The repositories or kind of work you want agents to do, and which coding agents you use today.
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What you are asking for
+      options:
+        - An invite to the managed service
+        - A commercial license to self-host the gate or the factory
+        - Not sure yet
+    validations:
+      required: true
+  - type: dropdown
+    id: size
+    attributes:
+      label: Team size
+      options:
+        - Just me
+        - 2 to 10
+        - 11 to 50
+        - More than 50

@@ -1,0 +1,24 @@
+{
+  "id": "repo-scratch-duration-hours",
+  "source": "real-repo",
+  "repository": "https://github.com/jyothepro/orqon-bench-scratch",
+  "base_ref": "c5c7d8f7171194c19c67be94ce50df493e198d11",
+  "title": "Show hours in formatDuration",
+  "description": "`formatDuration` in `src/duration.js` writes long durations as a large number of minutes: two hours reads as `120m 0s`. Durations of an hour or more should read as hours, minutes and seconds, e.g. `1h 0m 0s` and `2h 2m 2s`. Durations under an hour are unchanged. `parseDuration` reads durations back, and other code relies on it reading everything `formatDuration` writes.",
+  "acceptance_criteria": [
+    "`formatDuration(3600)` returns `1h 0m 0s` and `formatDuration(7322)` returns `2h 2m 2s`",
+    "durations under an hour format exactly as before",
+    "`parseDuration(formatDuration(n)) === n` for every non-negative integer `n`, hours included",
+    "`npm test` passes"
+  ],
+  "hidden_tests": {
+    "command": "node --test test/hidden-duration.test.js",
+    "files": ["test/hidden-duration.test.js"],
+    "timeout_seconds": 120
+  },
+  "reference_patch": "reference/correct.patch",
+  "budget_usd": 2.0,
+  "timeout_minutes": 45,
+  "risk_level": "low",
+  "notes": "Also the M5 demonstration candidate (#386 sub-task B). reference/naive.patch changes formatDuration only; it fails the repository's own round-trip test (test/duration.test.js), so a maker that takes the naive route is caught by the repo, not by a model. reference/correct.patch passes both the repo's tests and the hidden test. Checked offline when this task was written."
+}

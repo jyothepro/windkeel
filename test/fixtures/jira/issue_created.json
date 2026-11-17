@@ -1,0 +1,32 @@
+{
+  "timestamp": 1790000000000,
+  "webhookEvent": "jira:issue_created",
+  "issue_event_type_name": "issue_created",
+  "matchedWebhookIds": [1001],
+  "user": { "accountId": "5b10ac8d82e05b22cc7d4ef5", "displayName": "Mia Krystof" },
+  "issue": {
+    "id": "10042",
+    "key": "ENG-42",
+    "self": "https://acme.atlassian.net/rest/api/3/issue/10042",
+    "fields": {
+      "summary": "Add a health endpoint",
+      "labels": ["windkeel", "risk:medium"],
+      "project": { "id": "10000", "key": "ENG", "name": "Engineering" },
+      "description": {
+        "type": "doc",
+        "version": 1,
+        "content": [
+          { "type": "paragraph", "content": [{ "type": "text", "text": "Expose GET /health returning 200." }] },
+          { "type": "heading", "attrs": { "level": 2 }, "content": [{ "type": "text", "text": "Acceptance criteria" }] },
+          {
+            "type": "bulletList",
+            "content": [
+              { "type": "listItem", "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "GET /health answers 200" }] }] },
+              { "type": "listItem", "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "The response body is {\"ok\":true}" }] }] }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "orqon-bench-scratch",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A small, dependency-free library the factory benchmark poses real-repo tasks against.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  }
+}

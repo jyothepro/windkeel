@@ -1,0 +1,7 @@
+{
+  "id": "10-clean-ui-flow",
+  "kind": "clean",
+  "category": "none",
+  "expect": "pass",
+  "defect": "none - a declared flow that completes, so a passing browser stage is not mistaken for a failing one"
+}

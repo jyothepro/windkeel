@@ -1,0 +1,11 @@
+{
+  "id": "12-clean-feature-with-criteria",
+  "kind": "clean",
+  "category": "none",
+  "expect": "pass",
+  "defect": "none - a change that does implement its stated criteria, so satisfied criteria are not failed",
+  "intent": "intent.json",
+  "env": {
+    "WINDKEEL_FAKE_MAPPER": "mapper.json"
+  }
+}

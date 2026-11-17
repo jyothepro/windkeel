@@ -1,0 +1,24 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>Windkeel ingress</title>
+<meta name="robots" content="noindex" />
+<style>
+  body { font: 16px/1.6 system-ui, sans-serif; margin: 4rem auto; max-width: 34rem; padding: 0 1rem; }
+  code { background: #f4f4f5; padding: 0.1em 0.35em; border-radius: 3px; }
+</style>
+<h1>Windkeel ingress</h1>
+<p>
+  This deployment serves exactly one endpoint: <code>POST /api/webhook</code>, the GitHub App
+  webhook receiver. Anything else here is this page.
+</p>
+<p>
+  It exists so that a deploy can be confirmed live without sending a signed delivery — a
+  <code>GET /</code> that returns this is the cheapest proof the project built and routed. It is
+  also what <code>outputDirectory</code> points at: a project with only a function still needs a
+  static output directory, and pointing that at the app root would publish
+  <code>dist/</code> and <code>src/</code>.
+</p>
+<p>
+  The endpoint's behaviour, status codes, and idempotency are documented in
+  <code>docs/webhook-ingress.md</code>.
+</p>

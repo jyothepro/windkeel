@@ -1,0 +1,8 @@
+{
+  "id": "09-broken-ui-flow",
+  "kind": "seeded",
+  "category": "broken-ui-flow",
+  "expect": "fail",
+  "defect": "the declared checkout flow dead-ends at the confirmation step while unit tests stay green",
+  "stage": "browser"
+}

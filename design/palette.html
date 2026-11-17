@@ -1,0 +1,399 @@
+<title>Windkeel Palette</title>
+<meta name="description" content="Windkeel color tokens: 12-step scales and the semantic layer, shown in a live agent-session mock." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" />
+<link rel="stylesheet" href="tokens/color.css" />
+<style>
+  /* Preview-page chrome only. Every color below comes from tokens/color.css. */
+  :root {
+    --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--color-bg-canvas);
+    color: var(--color-text-primary);
+    font: 14px/1.5 var(--font-sans);
+    padding-inline: clamp(16px, 4vw, 40px);
+    padding-block: 32px 64px;
+  }
+  ::selection { background: var(--color-selection); }
+  :focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; }
+  .wrap { max-width: 1180px; margin: 0 auto; display: grid; gap: 48px; }
+
+  header.top { display: flex; flex-wrap: wrap; gap: 16px; align-items: end; justify-content: space-between; }
+  h1 { font-size: 28px; font-weight: 600; letter-spacing: -0.02em; margin: 0; text-wrap: balance; }
+  h2 { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 4px; }
+  .lede { color: var(--color-text-secondary); margin: 6px 0 0; max-width: 62ch; }
+  .muted { color: var(--color-text-secondary); margin: 0 0 16px; max-width: 70ch; }
+  code, .mono { font-family: var(--font-mono); font-size: 12.5px; }
+
+  .seg { display: inline-flex; border: 1px solid var(--color-border-default); border-radius: 8px; padding: 2px; background: var(--color-bg-surface); }
+  .seg button { font: 500 13px var(--font-sans); color: var(--color-text-secondary); background: none; border: 0; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+  .seg button:hover { color: var(--color-text-primary); background: var(--color-bg-hover); }
+  .seg button[aria-pressed="true"] { background: var(--color-bg-active); color: var(--color-text-primary); }
+
+  /* ---------- Mock app ---------- */
+  .app {
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--color-bg-canvas);
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr) 300px;
+    min-height: 620px;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px rgb(0 0 0 / 0.06);
+  }
+  .side { border-right: 1px solid var(--color-border-subtle); padding: 14px 10px; display: flex; flex-direction: column; gap: 4px; }
+  .brand { display: flex; align-items: center; gap: 8px; font-weight: 600; padding: 4px 8px 12px; }
+  .mark { width: 18px; height: 18px; border-radius: 5px; background: var(--color-accent-solid); position: relative; }
+  .mark::after { content: ""; position: absolute; inset: 5px; border-radius: 50%; background: var(--color-accent-on-solid); }
+  .navlabel { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-tertiary); padding: 12px 8px 4px; }
+  .sess { display: flex; gap: 8px; align-items: center; padding: 7px 8px; border-radius: 6px; color: var(--color-text-secondary); cursor: pointer; }
+  .sess:hover { background: var(--color-bg-hover); color: var(--color-text-primary); }
+  .sess.on { background: var(--color-accent-subtle); color: var(--color-accent-text); font-weight: 500; }
+  .sess span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+  .dot.running { background: var(--color-verdict-running); box-shadow: 0 0 0 3px var(--color-agent-subtle); animation: pulse 1.6s ease-in-out infinite; }
+  .dot.pass { background: var(--color-verdict-pass); }
+  .dot.fail { background: var(--color-verdict-fail); }
+  .dot.warn { background: var(--color-verdict-warn); }
+  .dot.skipped { background: var(--color-verdict-skipped); }
+  @keyframes pulse { 50% { box-shadow: 0 0 0 5px var(--color-agent-subtle); } }
+  @media (prefers-reduced-motion: reduce) { .dot.running, .caret { animation: none !important; } }
+
+  .main { display: flex; flex-direction: column; min-width: 0; background: var(--color-bg-surface); }
+  .bar { display: flex; gap: 12px; align-items: center; justify-content: space-between; padding: 12px 18px; border-bottom: 1px solid var(--color-border-subtle); flex-wrap: wrap; }
+  .bar .t { font-weight: 600; }
+  .bar .sub { color: var(--color-text-tertiary); font-size: 12.5px; }
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn { font: 500 13px var(--font-sans); border-radius: 7px; padding: 6px 12px; cursor: pointer; border: 1px solid transparent; }
+  .btn.primary { background: var(--color-accent-solid); color: var(--color-accent-on-solid); }
+  .btn.primary:hover { background: var(--color-accent-solid-hover); }
+  .btn.secondary { background: var(--color-bg-surface); color: var(--color-text-primary); border-color: var(--color-border-default); }
+  .btn.secondary:hover { background: var(--color-bg-hover); }
+  .btn.danger { background: var(--color-danger-subtle); color: var(--color-danger-text); border-color: var(--color-danger-border); }
+  .btn.danger:hover { background: var(--color-danger-solid); color: var(--color-danger-on-solid); border-color: var(--color-danger-solid); }
+
+  .feed { padding: 18px; display: flex; flex-direction: column; gap: 16px; flex: 1; }
+  .msg { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; }
+  .av { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 600; }
+  .av.you { background: var(--color-bg-active); color: var(--color-text-secondary); }
+  .av.agent { background: var(--color-agent-solid); color: var(--color-agent-on-solid); }
+  .who { font-size: 12.5px; color: var(--color-text-tertiary); margin-bottom: 2px; }
+  .who b { color: var(--color-text-primary); font-weight: 600; margin-right: 6px; }
+  .body p { margin: 0 0 8px; }
+  .body code { background: var(--color-bg-sunken); padding: 1px 5px; border-radius: 4px; }
+  .step { display: flex; align-items: center; gap: 8px; padding: 6px 10px; border: 1px solid var(--color-border-subtle); border-radius: 7px; margin: 6px 0; color: var(--color-text-secondary); font-size: 13px; background: var(--color-bg-surface); }
+  .step .k { font-family: var(--font-mono); font-size: 12px; color: var(--color-text-tertiary); }
+  .step.live { border-color: var(--color-agent-border); background: var(--color-agent-subtle); color: var(--color-agent-text); }
+  .caret { display: inline-block; width: 7px; height: 14px; background: var(--color-agent-solid); vertical-align: -2px; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .term, .diff { margin: 6px 0; }
+  .term { background: var(--color-bg-sunken); border: 1px solid var(--color-border-subtle); border-radius: 8px; overflow-x: auto; }
+  .term pre { margin: 0; padding: 10px 12px; font: 12px/1.6 var(--font-mono); color: var(--color-text-secondary); }
+  .term .ok { color: var(--color-success-text); }
+  .term .bad { color: var(--color-danger-text); }
+  .term .cmd { color: var(--color-text-primary); }
+  .term .dim { color: var(--color-text-tertiary); }
+
+  .diff { border: 1px solid var(--color-border-subtle); border-radius: 8px; overflow-x: auto; font: 12px/1.65 var(--font-mono); }
+  .diff .hd { padding: 6px 12px; background: var(--color-bg-canvas); border-bottom: 1px solid var(--color-border-subtle); color: var(--color-text-secondary); }
+  .diff .ln { padding: 0 12px; white-space: pre; color: var(--color-text-secondary); }
+  .diff .add { background: var(--color-diff-add-bg); color: var(--color-diff-add-text); }
+  .diff .rem { background: var(--color-diff-remove-bg); color: var(--color-diff-remove-text); }
+  .diff mark { border-radius: 2px; color: inherit; }
+  .diff .add mark { background: var(--color-diff-add-emphasis); }
+  .diff .rem mark { background: var(--color-diff-remove-emphasis); }
+
+  .composer { margin: 0 18px 18px; border: 1px solid var(--color-border-default); border-radius: 10px; padding: 10px 12px; display: flex; gap: 10px; align-items: center; background: var(--color-bg-surface); }
+  .composer:focus-within { border-color: var(--color-focus-ring); box-shadow: 0 0 0 3px var(--color-accent-subtle); }
+  .composer input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; color: var(--color-text-primary); font: 14px var(--font-sans); }
+  .composer input::placeholder { color: var(--color-text-tertiary); }
+
+  .panel { border-left: 1px solid var(--color-border-subtle); padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+  .verdict { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; padding: 2px 8px; border-radius: 999px; border: 1px solid; }
+  .badge.success { background: var(--color-success-subtle); color: var(--color-success-text); border-color: var(--color-success-border); }
+  .badge.warning { background: var(--color-warning-subtle); color: var(--color-warning-text); border-color: var(--color-warning-border); }
+  .badge.danger { background: var(--color-danger-subtle); color: var(--color-danger-text); border-color: var(--color-danger-border); }
+  .badge.info { background: var(--color-info-subtle); color: var(--color-info-text); border-color: var(--color-info-border); }
+  .badge.agent { background: var(--color-agent-subtle); color: var(--color-agent-text); border-color: var(--color-agent-border); }
+  .badge.solid { border-color: transparent; background: var(--color-success-solid); color: var(--color-success-on-solid); }
+  .stages { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+  .stages li { display: grid; grid-template-columns: 8px 1fr auto; gap: 10px; align-items: center; padding: 7px 8px; border-radius: 6px; }
+  .stages li:hover { background: var(--color-bg-hover); }
+  .stages .r { font-size: 12px; color: var(--color-text-tertiary); }
+  .banner { border: 1px solid var(--color-warning-border); background: var(--color-warning-subtle); color: var(--color-warning-text); border-radius: 8px; padding: 10px 12px; font-size: 13px; }
+  .banner b { display: block; margin-bottom: 2px; }
+  .kv { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 12.5px; }
+  .kv dt { color: var(--color-text-tertiary); }
+  .kv dd { margin: 0; font-family: var(--font-mono); font-size: 12px; overflow-wrap: anywhere; }
+
+  @media (max-width: 960px) {
+    .app { grid-template-columns: minmax(0, 1fr); }
+    .side { display: none; }
+    .panel { border-left: 0; border-top: 1px solid var(--color-border-subtle); }
+  }
+
+  /* ---------- Scales ---------- */
+  .scales { overflow-x: auto; }
+  .scale-grid { display: grid; grid-template-columns: 72px repeat(12, minmax(52px, 1fr)); gap: 4px; min-width: 760px; }
+  .scale-grid .hl { font-size: 11px; color: var(--color-text-tertiary); text-align: center; padding-bottom: 2px; }
+  .scale-grid .hl small { display: block; font-size: 10px; opacity: 0.85; line-height: 1.25; }
+  .scale-grid .name { font-weight: 500; align-self: center; font-size: 13px; }
+  .scale-grid .name small { display: block; font-weight: 400; color: var(--color-text-tertiary); font-size: 11px; }
+  .sw { height: 44px; border-radius: 6px; border: 1px solid rgb(127 127 127 / 0.12); position: relative; cursor: pointer; padding: 0; }
+  .sw:hover::after { content: attr(data-hex); position: absolute; inset: auto 0 3px; font: 10px var(--font-mono); text-align: center; color: var(--c); }
+
+  /* ---------- Semantic ---------- */
+  .groups { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px 32px; }
+  .group h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-tertiary); margin: 0 0 8px; font-weight: 500; }
+  .tok { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 4px 0; border-bottom: 1px solid var(--color-border-subtle); }
+  .tok i { width: 22px; height: 22px; border-radius: 5px; border: 1px solid rgb(127 127 127 / 0.2); }
+  .tok code { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .tok .ref { color: var(--color-text-tertiary); font-family: var(--font-mono); font-size: 11.5px; }
+
+  .toast { position: fixed; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%); background: var(--color-bg-inverse); color: var(--color-text-inverse); padding: 8px 14px; border-radius: 8px; font-size: 13px; }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Windkeel palette</h1>
+      <p class="lede">Graphite neutrals, an iris accent for anything you act on, cyan for anything the agent is doing, and four statuses. Every color on this page is a token.</p>
+    </div>
+    <div class="seg" role="group" aria-label="Theme">
+      <button id="th-system" data-t="system" aria-pressed="true">System</button>
+      <button id="th-light" data-t="light" aria-pressed="false">Light</button>
+      <button id="th-dark" data-t="dark" aria-pressed="false">Dark</button>
+    </div>
+  </header>
+
+  <section aria-labelledby="h-mock">
+    <h2 id="h-mock">In use</h2>
+    <p class="muted">A session view: runs on the left, the agent's work in the middle, the evidence package on the right.</p>
+    <div class="app">
+      <nav class="side" aria-label="Runs">
+        <div class="brand"><span class="mark" aria-hidden="true"></span>Windkeel</div>
+        <div class="navlabel">Active</div>
+        <div class="sess on"><span class="dot running"></span><span>Adopt a run whose execution ended</span></div>
+        <div class="sess"><span class="dot running"></span><span>Say when a signal has no carrier</span></div>
+        <div class="navlabel">Recent</div>
+        <div class="sess"><span class="dot pass"></span><span>Record human-in-the-loop half</span></div>
+        <div class="sess"><span class="dot fail"></span><span>Sweep stale workspaces</span></div>
+        <div class="sess"><span class="dot warn"></span><span>Unsatisfiable criterion fails</span></div>
+        <div class="sess"><span class="dot skipped"></span><span>Browser QA for ingress page</span></div>
+      </nav>
+
+      <div class="main">
+        <div class="bar">
+          <div>
+            <div class="t">Adopt a run whose execution ended</div>
+            <div class="sub mono">jyothepro/windkeel · #261 · run 7f3a</div>
+          </div>
+          <div class="actions">
+            <button class="btn danger">Stop run</button>
+            <button class="btn secondary">View diff</button>
+            <button class="btn primary">Open pull request</button>
+          </div>
+        </div>
+
+        <div class="feed">
+          <div class="msg">
+            <div class="av you" aria-hidden="true">JY</div>
+            <div class="body">
+              <div class="who"><b>You</b>2m ago</div>
+              <p>A merge that lands after the execution ends is dropped. Adopt the run instead of discarding it.</p>
+            </div>
+          </div>
+
+          <div class="msg">
+            <div class="av agent" aria-hidden="true">O</div>
+            <div class="body">
+              <div class="who"><b>Windkeel</b>working</div>
+              <p>The late merge hits <code>run-service.ts</code> after the state machine has moved to <code>ended</code>. Reproducing first.</p>
+              <div class="step"><span class="k">read</span> src/factory/run-service.ts</div>
+              <div class="step"><span class="k">read</span> src/factory/run-state-machine.ts</div>
+              <div class="term">
+<pre><span class="cmd">$ node --test test/run-service.test.js</span>
+<span class="ok">✔</span> starts a run from an issue <span class="dim">(12ms)</span>
+<span class="ok">✔</span> records a stage as skipped with a reason <span class="dim">(4ms)</span>
+<span class="bad">✖</span> adopts a run whose execution ended <span class="dim">(31ms)</span>
+  <span class="bad">AssertionError: expected state 'merged', got 'ended'</span>
+<span class="dim">tests 3 · pass 2 · fail 1</span></pre>
+              </div>
+              <div class="diff">
+                <div class="hd">src/factory/run-service.ts</div>
+                <div class="ln">   if (run.state === "ended") {</div>
+                <div class="ln rem">-    return <mark>discard(run)</mark>;</div>
+                <div class="ln add">+    return <mark>adopt(run, event)</mark>;</div>
+                <div class="ln">   }</div>
+              </div>
+              <div class="step live"><span class="k">run</span> npm test <span class="caret" aria-hidden="true"></span></div>
+            </div>
+          </div>
+        </div>
+
+        <label class="composer" for="composer">
+          <input id="composer" placeholder="Reply to Windkeel, or @ a file…" />
+          <button class="btn primary" type="button">Send</button>
+        </label>
+      </div>
+
+      <aside class="panel" aria-label="Evidence">
+        <div class="verdict">
+          <h2 style="margin:0">Evidence</h2>
+          <span class="badge agent"><span class="dot running"></span>Verifying</span>
+        </div>
+        <ul class="stages">
+          <li><span class="dot pass"></span>Repo checks<span class="r">pass</span></li>
+          <li><span class="dot pass"></span>Adversarial review<span class="r">pass</span></li>
+          <li><span class="dot warn"></span>Intent mapping<span class="r">1 unmet</span></li>
+          <li><span class="dot running"></span>Security scan<span class="r">running</span></li>
+          <li><span class="dot skipped"></span>Browser QA<span class="r">skipped</span></li>
+        </ul>
+        <div class="banner"><b>Criterion can't be satisfied</b>“UI shows adoption” — this change has no UI. Recorded as not applicable, not failed.</div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap">
+          <span class="badge solid">Pass</span>
+          <span class="badge success">2 passed</span>
+          <span class="badge warning">1 warn</span>
+          <span class="badge danger">0 findings</span>
+          <span class="badge info">Sigstore sealed</span>
+        </div>
+        <dl class="kv">
+          <dt>Author</dt><dd>codex-worker</dd>
+          <dt>Verifier</dt><dd>windkeel 0.2.0</dd>
+          <dt>Package</dt><dd>sha256:9c1e…a07b</dd>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-scales">
+    <h2 id="h-scales">Scales</h2>
+    <p class="muted">Twelve steps per hue, each with a fixed job. Lightness is shared across hues, so any step reads at the same weight in every color. Click a swatch to copy its hex.</p>
+    <div class="scales"><div class="scale-grid" id="scale-grid"></div></div>
+  </section>
+
+  <section aria-labelledby="h-sem">
+    <h2 id="h-sem">Semantic tokens</h2>
+    <p class="muted">What components use. Each points at a scale step, and the step changes with the theme — so a component written against <code>--color-danger-text</code> is correct in both.</p>
+    <div class="groups" id="groups"></div>
+  </section>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+  const HUES = [
+    ["neutral", "Graphite · shell"],
+    ["iris", "Accent · actions"],
+    ["cyan", "Agent · activity"],
+    ["green", "Success · pass"],
+    ["amber", "Warning · warn"],
+    ["red", "Danger · fail"],
+    ["blue", "Info"],
+  ];
+  const ROLES = ["App bg", "Subtle bg", "Element", "Hover", "Active", "Subtle border", "Border", "Strong border", "Solid", "Solid hover", "Text", "Text strong"];
+  const GROUPS = [
+    ["Surface", /^bg-/], ["Border", /^border-/], ["Text", /^text-/],
+    ["Accent", /^(accent-|focus|selection)/], ["Agent", /^agent-/],
+    ["Status", /^(success|warning|danger|info)-/], ["Verdict", /^verdict-/], ["Diff", /^diff-/],
+  ];
+
+  const rootStyle = () => getComputedStyle(document.documentElement);
+  const toHex = (c) => {
+    const probe = document.createElement("i");
+    probe.style.color = c;
+    document.body.appendChild(probe);
+    const m = getComputedStyle(probe).color.match(/[\d.]+/g) || [];
+    probe.remove();
+    const hex = "#" + m.slice(0, 3).map((v) => Math.round(+v).toString(16).padStart(2, "0")).join("");
+    return m.length > 3 && +m[3] < 1 ? `${hex} / ${Math.round(m[3] * 100)}%` : hex;
+  };
+
+  // Semantic token names and the scale step each points at, read from the light block of
+  // tokens/color.css so this page never drifts from the generated file.
+  function semanticRefs() {
+    for (const sheet of document.styleSheets) {
+      let rules;
+      try { rules = sheet.cssRules; } catch { continue; }
+      for (const r of rules) {
+        if (r.selectorText && r.selectorText.startsWith(":root") && r.style.getPropertyValue("--neutral-1")) {
+          const out = [];
+          for (const p of r.style) if (p.startsWith("--color-")) out.push([p, r.style.getPropertyValue(p).trim()]);
+          return out;
+        }
+      }
+    }
+    // Stylesheet rules are unreadable when the page is opened from disk; fall back to the
+    // computed values, which lose the scale reference but keep the color.
+    const cs = rootStyle();
+    return [...cs].filter((p) => p.startsWith("--color-")).map((p) => [p, cs.getPropertyValue(p).trim()]);
+  }
+
+  function render() {
+    const s = rootStyle();
+    const grid = document.getElementById("scale-grid");
+    let html = "<div></div>" + ROLES.map((r, i) => `<div class="hl">${i + 1}<small>${r}</small></div>`).join("");
+    for (const [h, label] of HUES) {
+      html += `<div class="name">${h}<small>${label}</small></div>`;
+      for (let i = 1; i <= 12; i++) {
+        const hex = s.getPropertyValue(`--${h}-${i}`).trim();
+        // Hover label color: the scale's own far end, or on a solid, whatever that solid carries.
+        const darkSolid = h === "amber" || h === "cyan" || h === "neutral";
+        const label = i < 9 ? `var(--${h}-12)` : i >= 11 ? `var(--${h}-1)` : darkSolid ? "#111" : "#fff";
+        html += `<button class="sw" style="background:${hex};--c:${label}" data-hex="${hex}" aria-label="${h} ${i} ${hex}"></button>`;
+      }
+    }
+    grid.innerHTML = html;
+
+    const refs = semanticRefs();
+    document.getElementById("groups").innerHTML = GROUPS.map(([title, re]) => {
+      const rows = refs.filter(([p]) => re.test(p.slice(8))).map(([p, v]) => {
+        const ref = (v.match(/--([a-z]+-\d+)/) || [])[1] || "";
+        return `<div class="tok"><i style="background:var(${p})"></i><code title="${p}">${p.slice(8)}</code><span class="ref">${ref || toHex(s.getPropertyValue(p).trim())}</span></div>`;
+      }).join("");
+      return `<div class="group"><h3>${title}</h3>${rows}</div>`;
+    }).join("");
+  }
+
+  const toast = document.getElementById("toast");
+  let toastTimer;
+  function say(msg) {
+    toast.textContent = msg;
+    toast.hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => (toast.hidden = true), 1400);
+  }
+  document.getElementById("scale-grid").addEventListener("click", (e) => {
+    const b = e.target.closest(".sw");
+    if (!b) return;
+    const hex = b.dataset.hex;
+    Promise.resolve(navigator.clipboard?.writeText(hex)).then(() => say(`Copied ${hex}`), () => say(hex));
+  });
+
+  function setTheme(t) {
+    if (t === "system") delete document.documentElement.dataset.theme;
+    else document.documentElement.dataset.theme = t;
+    document.querySelectorAll(".seg button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.t === t)));
+    try { localStorage.setItem("windkeel-theme", t); } catch {}
+    requestAnimationFrame(render);
+  }
+  document.querySelector(".seg").addEventListener("click", (e) => {
+    const b = e.target.closest("button");
+    if (b) setTheme(b.dataset.t);
+  });
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", render);
+
+  let saved = null;
+  try { saved = localStorage.getItem("windkeel-theme"); } catch {}
+  const stamped = document.documentElement.dataset.theme;
+  if (saved && saved !== "system") setTheme(saved);
+  else if (stamped) document.querySelectorAll(".seg button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.t === stamped)));
+  const boot = () => render();
+  if (document.readyState === "complete") boot(); else addEventListener("load", boot);
+</script>

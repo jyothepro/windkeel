@@ -1,0 +1,30 @@
+{
+  "id": "swe-camelcase-112",
+  "source": "swe-bench",
+  "repository": "https://github.com/jyothepro/bench-camelcase",
+  "base_ref": "c9fa59df2e32611c5c71d0f219f661fa8e1dfdf8",
+  "title": "camelCase mishandles words that contain a number",
+  "description": "`camelCase` mishandles input in which a word has letters, then a digit, then more letters. For example `b2b_registration_request` should convert to `b2bRegistrationRequest` (and to `B2bRegistrationRequest` with `pascalCase: true`): a digit inside a word must not change the casing of the letters after it. Fix the conversion without changing any other existing behaviour.",
+  "acceptance_criteria": [
+    "`camelCase('b2b_registration_request')` returns `b2bRegistrationRequest`",
+    "`camelCase('b2b_registration_request', {pascalCase: true})` returns `B2bRegistrationRequest`",
+    "behaviour the repository's existing tests cover is unchanged"
+  ],
+  "hidden_tests": {
+    "command": "npm install --ignore-scripts --no-audit --no-fund --no-package-lock --loglevel=error && npx ava test.js",
+    "files": [
+      "test.js"
+    ],
+    "timeout_seconds": 600
+  },
+  "budget_usd": 2.0,
+  "timeout_minutes": 45,
+  "risk_level": "low",
+  "upstream": {
+    "repo": "https://github.com/sindresorhus/camelcase",
+    "fix_commit": "e7dccc901ce645138a52dd5945e245773b4684c5",
+    "pull_request": "https://github.com/sindresorhus/camelcase/pull/112",
+    "license": "MIT, see UPSTREAM-LICENSE"
+  },
+  "notes": "SWE-bench-style. base_ref is the upstream fix's parent; hidden/test.js is the upstream test file at fix_commit. The scratch repo must hold base_ref's history only (bench/factory/README.md, 'Scratch repositories')."
+}

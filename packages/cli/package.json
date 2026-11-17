@@ -1,0 +1,29 @@
+{
+  "name": "windkeel",
+  "version": "0.2.0",
+  "description": "Independent verification for AI-written code: run the evidence-based gate locally, or drive a deployed Windkeel factory.",
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "type": "module",
+  "bin": {
+    "windkeel": "dist/cli.js",
+    "orqon": "dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "build": "tsc -p ../api-contract/tsconfig.json && tsc -p tsconfig.json",
+    "typecheck": "tsc -p ../api-contract/tsconfig.json && tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@windkeel/verification": "*"
+  },
+  "devDependencies": {
+    "@windkeel/api-contract": "*",
+    "@types/node": "22.20.5",
+    "typescript": "5.9.3"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "action": "triggered",
+  "installation": { "uuid": "7a485448-a9e2-4c85-8a3c-4f44175783c9" },
+  "data": {
+    "event": {
+      "event_id": "4d4a4e5b9c1f4a8e9e3e2d1c0b9a8f7e",
+      "issue_id": "4100000001",
+      "issue_short_id": "CHECKOUT-WEB-1A",
+      "title": "TypeError: Cannot read properties of undefined (reading 'total')",
+      "culprit": "src/cart/summary.js in renderTotals",
+      "message": "",
+      "environment": "production",
+      "release": "checkout-web@2.14.0",
+      "level": "error",
+      "platform": "javascript",
+      "project": 1100001,
+      "url": "https://sentry.io/api/0/projects/acme-shop/checkout-web/events/4d4a4e5b9c1f4a8e9e3e2d1c0b9a8f7e/",
+      "web_url": "https://sentry.io/organizations/acme-shop/issues/4100000001/events/4d4a4e5b9c1f4a8e9e3e2d1c0b9a8f7e/",
+      "issue_url": "https://sentry.io/api/0/issues/4100000001/",
+      "metadata": { "type": "TypeError", "value": "Cannot read properties of undefined (reading 'total')" },
+      "exception": {
+        "values": [
+          {
+            "type": "TypeError",
+            "value": "Cannot read properties of undefined (reading 'total')",
+            "stacktrace": {
+              "frames": [
+                { "filename": "node_modules/react-dom/cjs/react-dom.development.js", "lineno": 16305, "function": "renderWithHooks", "in_app": false },
+                { "filename": "src/cart/CartPage.js", "lineno": 41, "function": "CartPage", "in_app": true },
+                { "filename": "src/cart/summary.js", "lineno": 12, "function": "renderTotals", "in_app": true }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "triggered_rule": "windkeel: checkout errors",
+    "issue_alert": { "title": "windkeel: checkout errors", "settings": [] }
+  },
+  "actor": { "type": "application", "id": "sentry", "name": "Sentry" }
+}

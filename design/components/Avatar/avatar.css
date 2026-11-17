@@ -1,0 +1,20 @@
+/* Avatar: who said it. People get initials on neutral; the agent gets its mark on cyan. */
+.oq-avatar {
+  --_s: 24px;
+  display: inline-grid;
+  place-items: center;
+  width: var(--_s);
+  height: var(--_s);
+  flex: none;
+  overflow: hidden;
+  border-radius: var(--radius-full);
+  background: var(--color-bg-active);
+  color: var(--color-text-secondary);
+  font: var(--font-weight-semibold) calc(var(--_s) * 0.42) / 1 var(--font-sans);
+  user-select: none;
+}
+.oq-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.oq-avatar--sm { --_s: 20px; }
+.oq-avatar--lg { --_s: 32px; }
+.oq-avatar--agent { background: var(--color-agent-solid); color: var(--color-agent-on-solid); }
+.oq-avatar--agent[data-state="working"] { animation: oq-pulse 1.6s var(--ease-standard) infinite; }

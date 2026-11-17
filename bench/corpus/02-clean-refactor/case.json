@@ -1,0 +1,7 @@
+{
+  "id": "02-clean-refactor",
+  "kind": "clean",
+  "category": "none",
+  "expect": "pass",
+  "defect": "none — a behaviour-preserving refactor that must not be flagged"
+}

@@ -1,0 +1,47 @@
+{
+  "organizationId": "7c3a1f0e-2b4d-4e6f-9a8b-1c2d3e4f5a6b",
+  "webhookId": "9d8c7b6a-5f4e-4d3c-8b2a-1a0b9c8d7e6f",
+  "webhookTimestamp": 1790330400000,
+  "createdAt": "2026-09-25T10:00:00.000Z",
+  "actor": {
+    "id": "u1",
+    "type": "user",
+    "name": "Ada"
+  },
+  "action": "create",
+  "type": "Issue",
+  "data": {
+    "id": "4b8c2a1d-6e5f-4a3b-9c8d-7e6f5a4b3c2d",
+    "identifier": "ENG-42",
+    "number": 42,
+    "title": "Retry uploads on 5xx",
+    "description": "Uploads fail on transient errors.\n\n- [ ] a 500 is retried three times\n- [ ] a 400 is not retried",
+    "url": "https://linear.app/acme/issue/ENG-42/retry-uploads-on-5xx",
+    "teamId": "0f1e2d3c-4b5a-4968-8776-655443322110",
+    "team": {
+      "id": "0f1e2d3c-4b5a-4968-8776-655443322110",
+      "key": "ENG",
+      "name": "Engineering"
+    },
+    "priority": 2,
+    "labelIds": [
+      "a1b2c3d4-0000-4000-8000-000000000001",
+      "a1b2c3d4-0000-4000-8000-000000000002"
+    ],
+    "labels": [
+      {
+        "id": "a1b2c3d4-0000-4000-8000-000000000001",
+        "name": "windkeel",
+        "color": "#5e6ad2"
+      },
+      {
+        "id": "a1b2c3d4-0000-4000-8000-000000000002",
+        "name": "risk:high",
+        "color": "#eb5757"
+      }
+    ],
+    "createdAt": "2026-09-25T10:00:00.000Z",
+    "updatedAt": "2026-09-25T10:00:00.000Z"
+  },
+  "url": "https://linear.app/acme/issue/ENG-42/retry-uploads-on-5xx"
+}

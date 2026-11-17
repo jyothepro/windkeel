@@ -1,0 +1,20 @@
+<!-- @dsCard group="Navigation" height=72 subtitle="Click to switch" -->
+<div class="oq-row" style="--gap: var(--space-5); padding: var(--space-4)">
+  <div class="oq-segmented" role="group" aria-label="Diff layout">
+    <button type="button" class="oq-segmented__item" aria-pressed="true">Unified</button>
+    <button type="button" class="oq-segmented__item" aria-pressed="false">Split</button>
+  </div>
+  <div class="oq-segmented" role="group" aria-label="Theme">
+    <button type="button" class="oq-segmented__item" aria-pressed="false">Light</button>
+    <button type="button" class="oq-segmented__item" aria-pressed="false">Dark</button>
+    <button type="button" class="oq-segmented__item" aria-pressed="true">System</button>
+  </div>
+</div>
+<script>
+  document.querySelectorAll(".oq-segmented").forEach((g) =>
+    g.addEventListener("click", (e) => {
+      const b = e.target.closest(".oq-segmented__item");
+      if (b) g.querySelectorAll(".oq-segmented__item").forEach((o) => o.setAttribute("aria-pressed", String(o === b)));
+    }),
+  );
+</script>

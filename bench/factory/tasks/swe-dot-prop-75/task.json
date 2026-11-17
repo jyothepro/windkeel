@@ -1,0 +1,29 @@
+{
+  "id": "swe-dot-prop-75",
+  "source": "swe-bench",
+  "repository": "https://github.com/jyothepro/bench-dot-prop",
+  "base_ref": "0f8abf46dc35ea806ad046a3f1512455077752b2",
+  "title": "dot-prop get ignores the default value when the last path segment is missing",
+  "description": "`dotProp.get(object, path, defaultValue)` must return `defaultValue` when every segment of the path exists except the last one: `dotProp.get({foo: {}}, 'foo.fake', 'some value')` should return `'some value'`, as it already does when an earlier segment is missing.",
+  "acceptance_criteria": [
+    "`dotProp.get({foo: {}}, 'foo.fake', 'some value')` returns `'some value'`",
+    "a path whose value exists still returns that value"
+  ],
+  "hidden_tests": {
+    "command": "npm install --ignore-scripts --no-audit --no-fund --no-package-lock --loglevel=error && npx ava test.js",
+    "files": [
+      "test.js"
+    ],
+    "timeout_seconds": 600
+  },
+  "budget_usd": 2.0,
+  "timeout_minutes": 45,
+  "risk_level": "low",
+  "upstream": {
+    "repo": "https://github.com/sindresorhus/dot-prop",
+    "fix_commit": "dcc7f73f512e5ae26d83e6805364b79b2dd2efe2",
+    "pull_request": "https://github.com/sindresorhus/dot-prop/pull/75",
+    "license": "MIT, see UPSTREAM-LICENSE"
+  },
+  "notes": "SWE-bench-style. base_ref is the upstream fix's parent; hidden/test.js is the upstream test file at fix_commit. The scratch repo must hold base_ref's history only (bench/factory/README.md, 'Scratch repositories')."
+}

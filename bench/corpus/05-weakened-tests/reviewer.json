@@ -1,0 +1,13 @@
+{
+  "summary": "The change removes a bounds check and, in the same diff, removes the two assertions that covered it.",
+  "findings": [
+    {
+      "id": "F-coverage-removed",
+      "severity": "blocking",
+      "category": "test-coverage",
+      "claim": "parsePort no longer rejects out-of-range ports, and the assertions that proved it did were deleted in the same change",
+      "location": "test.js",
+      "failure_scenario": "parsePort(\"0\") and parsePort(\"70000\") now return silently, so a service binds to an invalid port at startup and the suite still reports green"
+    }
+  ]
+}

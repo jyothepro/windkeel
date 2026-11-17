@@ -1,0 +1,18 @@
+<!-- @dsCard group="Agent" height=250 subtitle="Test run with a failure" -->
+<div style="padding: var(--space-4)">
+  <div class="oq-terminal">
+    <div class="oq-terminal__header">
+      <span class="oq-terminal__title">~/windkeel · node --test</span>
+      <span class="oq-badge oq-badge--sm" data-intent="danger">exit 1</span>
+      <button type="button" class="oq-button oq-button--ghost oq-button--sm">Copy</button>
+    </div>
+<pre class="oq-terminal__body"><span class="oq-terminal__cmd">node --test test/run-service.test.js</span>
+<span class="oq-terminal__ok">✔</span> starts a run from an issue <span class="oq-terminal__dim">(12ms)</span>
+<span class="oq-terminal__ok">✔</span> records a stage as skipped with a reason <span class="oq-terminal__dim">(4ms)</span>
+<span class="oq-terminal__err">✖</span> adopts a run whose execution ended <span class="oq-terminal__dim">(31ms)</span>
+  <span class="oq-terminal__err">AssertionError: expected state 'merged', got 'ended'</span>
+      at <span class="oq-terminal__link">test/run-service.test.js:88:12</span>
+<span class="oq-terminal__warn">⚠</span> 1 test used a real timer
+<span class="oq-terminal__dim">tests 3 · pass 2 · fail 1 · duration 212ms</span></pre>
+  </div>
+</div>

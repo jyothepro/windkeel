@@ -1,0 +1,8 @@
+{"type":"system","subtype":"init","session_id":"5a5a5a5a-1111-4222-8333-444455556666","apiKeySource":"ANTHROPIC_API_KEY","tools":[],"mcp_servers":[]}
+this line is not json
+{"type":"stream_event","event":{"type":"content_block_delta"}}
+{"type":"system","subtype":"compact_boundary"}
+{"type":"system","subtype":"permission_denied","tool_name":"WebFetch"}
+{"type":"assistant","message":{"content":[{"type":"text","text":"Done."}]},"session_id":"5a5a5a5a-1111-4222-8333-444455556666"}
+{"type":"result","subtype":"success","is_error":false,"session_id":"5a5a5a5a-1111-4222-8333-444455556666","usage":{"input_tokens":10,"output_tokens":5}}
+{"type":"result","subtype":"suc

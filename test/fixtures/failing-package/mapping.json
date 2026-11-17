@@ -1,0 +1,21 @@
+{
+  "status": "completed",
+  "mappings": [
+    {
+      "criterion": "AC1",
+      "status": "unsatisfied",
+      "evidence": [
+        "ev-02"
+      ],
+      "reason": "No test evidence covers the exit-code behaviour; blocking finding F1 stands against it"
+    },
+    {
+      "criterion": "AC2",
+      "status": "satisfied",
+      "evidence": [
+        "ev-01"
+      ],
+      "reason": "typecheck and suite green over all fixture packages"
+    }
+  ]
+}

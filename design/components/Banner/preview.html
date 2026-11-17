@@ -1,0 +1,23 @@
+<!-- @dsCard group="Feedback" height=320 subtitle="Warning, danger, agent, info" -->
+<div class="oq-stack" style="--gap: var(--space-3); padding: var(--space-4)">
+  <div class="oq-banner" data-intent="warning" role="status">
+    <svg class="oq-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.5 20h19z"/><path d="M12 10v4M12 17.5v.5"/></svg>
+    <div><strong class="oq-banner__title">Criterion can't be satisfied</strong><p class="oq-banner__body">“UI shows adoption” — this change has no UI. Recorded as not applicable, not failed.</p></div>
+    <div class="oq-banner__actions"><button type="button" class="oq-button oq-button--sm">Edit criteria</button></div>
+  </div>
+  <div class="oq-banner" data-intent="danger" role="status">
+    <svg class="oq-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></svg>
+    <div><strong class="oq-banner__title">Base branch is red</strong><p class="oq-banner__body">main fails repo checks at 96273a5, so this run can't pass. It will re-verify when main recovers.</p></div>
+    <div class="oq-banner__actions"></div>
+  </div>
+  <div class="oq-banner" data-intent="agent" role="status">
+    <svg class="oq-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17l6-5-6-5M12 19h8"/></svg>
+    <div><strong class="oq-banner__title">Windkeel is waiting for you</strong><p class="oq-banner__body">Approve running <code>npm install</code> in the sandbox to continue.</p></div>
+    <div class="oq-banner__actions"><button type="button" class="oq-button oq-button--sm">Deny</button><button type="button" class="oq-button oq-button--sm oq-button--primary">Approve</button></div>
+  </div>
+  <div class="oq-banner" role="status">
+    <svg class="oq-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>
+    <div><strong class="oq-banner__title">Browser QA skipped</strong><p class="oq-banner__body">No UI files changed. The package records the reason.</p></div>
+    <div class="oq-banner__actions"></div>
+  </div>
+</div>

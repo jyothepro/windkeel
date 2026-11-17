@@ -1,0 +1,6 @@
+{
+  "criteria": [
+    { "id": "AC1", "text": "format() emits JSON when called with { json: true }" },
+    { "id": "AC2", "text": "the existing plain-text output is unchanged" }
+  ]
+}

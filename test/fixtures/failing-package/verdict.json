@@ -1,0 +1,21 @@
+{
+  "verdict": "fail",
+  "rule": "fail iff any blocking finding OR any unsatisfied criterion; else warn iff any warning-status evidence or non-blocking finding; else pass",
+  "blocking_findings": [
+    "F1"
+  ],
+  "unsatisfied_criteria": [
+    "AC1"
+  ],
+  "criteria": {
+    "satisfied": 1,
+    "unsatisfied": 1,
+    "total": 2
+  },
+  "evidence_counts": {
+    "passed": 1,
+    "completed_with_findings": 1,
+    "skipped": 1
+  },
+  "summary": "Blocked: AC1 (non-zero exit on blocking findings) has no covering test \u2014 reviewer finding F1."
+}

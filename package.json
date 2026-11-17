@@ -1,0 +1,122 @@
+{
+  "name": "@windkeel/factory",
+  "version": "0.2.0",
+  "description": "The Windkeel factory: run state machine, sandboxes, workers, GitHub integration, and the operator CLI. Not published — the published command line is packages/cli.",
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "bin": {
+    "windkeel-admin": "dist/admin-cli.js"
+  },
+  "exports": {
+    "./batches": {
+      "types": "./dist/public/batches.d.ts",
+      "default": "./dist/public/batches.js"
+    },
+    "./billing": {
+      "types": "./dist/public/billing.d.ts",
+      "default": "./dist/public/billing.js"
+    },
+    "./execution": {
+      "types": "./dist/public/execution.d.ts",
+      "default": "./dist/public/execution.js"
+    },
+    "./github": {
+      "types": "./dist/public/github.d.ts",
+      "default": "./dist/public/github.js"
+    },
+    "./intake": {
+      "types": "./dist/public/intake.d.ts",
+      "default": "./dist/public/intake.js"
+    },
+    "./integrations": {
+      "types": "./dist/public/integrations.d.ts",
+      "default": "./dist/public/integrations.js"
+    },
+    "./models": {
+      "types": "./dist/public/models.d.ts",
+      "default": "./dist/public/models.js"
+    },
+    "./ops": {
+      "types": "./dist/public/ops.d.ts",
+      "default": "./dist/public/ops.js"
+    },
+    "./repositories": {
+      "types": "./dist/public/repositories.d.ts",
+      "default": "./dist/public/repositories.js"
+    },
+    "./runs": {
+      "types": "./dist/public/runs.d.ts",
+      "default": "./dist/public/runs.js"
+    },
+    "./sandbox": {
+      "types": "./dist/public/sandbox.d.ts",
+      "default": "./dist/public/sandbox.js"
+    },
+    "./schedules": {
+      "types": "./dist/public/schedules.d.ts",
+      "default": "./dist/public/schedules.js"
+    },
+    "./tenancy": {
+      "types": "./dist/public/tenancy.d.ts",
+      "default": "./dist/public/tenancy.js"
+    },
+    "./workflow": {
+      "types": "./dist/public/workflow.d.ts",
+      "default": "./dist/public/workflow.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "build": "npm run build -w @windkeel/verification && npm run build -w @windkeel/api-contract && tsc -p tsconfig.json && npm run build:workflow && npm run build -w windkeel && npm run build -w @windkeel/ingress",
+    "typecheck": "npm run build -w @windkeel/verification && npm run build -w @windkeel/api-contract && tsc -p tsconfig.json && npm run typecheck -w windkeel && npm run typecheck -w @windkeel/ingress",
+    "test": "npm run clean && npm run build && node --test --test-force-exit test/*.test.js",
+    "test:ci": "npm run clean && npm run build && node --test --test-force-exit --test-concurrency=4 --experimental-test-coverage --test-coverage-lines=91 --test-coverage-branches=83 --test-coverage-functions=91 --test-coverage-include='dist/**' --test-coverage-include='packages/*/dist/**' --test-coverage-include='apps/*/dist/**' --test-reporter=tap --test-reporter-destination=stdout --test-reporter=tap --test-reporter-destination=test-results.tap test/*.test.js",
+    "test:skip-budget": "node scripts/skip-budget.mjs test-results.tap test/skip-budget.json",
+    "test:pg-pressure": "node test/tools/pg-pressure.mjs",
+    "orqon": "node packages/cli/dist/cli.js",
+    "db:migrate": "npm run build && node dist/factory/migrate-cli.js",
+    "build:workflow": "WORKFLOW_OBSERVABILITY_CWD=src workflow build",
+    "windkeel-admin": "node dist/admin-cli.js",
+    "clean": "rm -rf dist packages/*/dist apps/*/dist",
+    "embed:human-workspace-server": "node src/sandbox/human-workspace-server/embed.mjs",
+    "embed:maker-browser": "node src/sandbox/maker-browser/embed.mjs",
+    "build:cli": "npm run build -w @windkeel/verification && npm run build -w @windkeel/api-contract && npm run build -w windkeel",
+    "arch:check": "node scripts/arch-check.mjs",
+    "prelint": "npm run typecheck",
+    "lint": "eslint --max-warnings 0 src packages apps tools eslint.config.js",
+    "test:built": "node --test --test-force-exit --test-concurrency=4 --experimental-test-coverage --test-coverage-lines=91 --test-coverage-branches=83 --test-coverage-functions=91 --test-coverage-include='dist/**' --test-coverage-include='packages/*/dist/**' --test-coverage-include='apps/*/dist/**' --test-reporter=tap --test-reporter-destination=stdout --test-reporter=tap --test-reporter-destination=test-results.tap test/*.test.js",
+    "invariant:check": "node scripts/invariant-check.mjs",
+    "formal:check": "node scripts/formal-check.mjs",
+    "pack:cli": "npm run build:cli && node scripts/pack-cli.mjs",
+    "windkeel": "node packages/cli/dist/cli.js"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.5",
+    "@types/pg": "^8.23.1",
+    "@workflow/world-local": "^5.0.0-beta.45",
+    "eslint": "^10.14.0",
+    "fast-check": "^4.10.2",
+    "playwright-core": "^1.65.0",
+    "typescript": "5.9.3",
+    "typescript-eslint": "^8.72.1"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1161.0",
+    "@aws-sdk/s3-request-presigner": "^3.1161.0",
+    "@windkeel/api-contract": "*",
+    "@windkeel/verification": "*",
+    "@vercel/connect": "^2.8.0",
+    "@vercel/functions": "^3.10.6",
+    "@vercel/sandbox": "^3.9.1",
+    "pg": "^8.23.1",
+    "workflow": "^5.3.0"
+  },
+  "private": true
+}

@@ -1,0 +1,12 @@
+{
+  "id": "04-unmet-criterion",
+  "kind": "seeded",
+  "category": "intent-mismatch",
+  "expect": "fail",
+  "defect": "the change is green but does not implement the stated acceptance criterion",
+  "stage": "intent",
+  "intent": "intent.json",
+  "env": {
+    "WINDKEEL_FAKE_MAPPER": "mapper.json"
+  }
+}

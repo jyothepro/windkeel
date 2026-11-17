@@ -1,0 +1,113 @@
+
+
+import { ApiError } from "./http.ts";
+import type { Accepted } from "./types.ts";
+
+export {
+  apiMode,
+  apiAuth,
+  scopedPath,
+  MAX_IN_FLIGHT,
+  getIdentity,
+  currentOrganization,
+} from "./api-transport.ts";
+export {
+  listRuns,
+  listQueue,
+  listInboxRuns,
+  listInboxRunsWithFailed,
+  getRun,
+  getRunEvents,
+  FEED_TAIL,
+  getRunEventsTail,
+  getRunTransitions,
+  AGENT_TAIL,
+  getRunAgentEvents,
+  getRunCost,
+  getRunDiff,
+  getRunWorkspace,
+  getRunScreenshots,
+  getRunEvidence,
+  getRunMessages,
+  listRepositorySecrets,
+  getRepositoryEnvironment,
+  rebuildRepositoryEnvironment,
+  invalidateRepositoryEnvironment,
+  getRunEvidenceOrNull,
+  listTasks,
+  getTask,
+  listRepositories,
+  listAllRepositories,
+  getMetrics,
+  getSelf,
+  getHealth,
+  databaseState,
+  listBatches,
+  getBatch,
+  batchLifecycle,
+  approveRun,
+  cancelRun,
+  sendGuidance,
+  takeoverRun,
+  submitRun,
+  handBackRun,
+  openWorkspaceSession,
+  takeoverEnabled,
+  createTask,
+  createRun,
+  getMergeEligibility,
+  mergeRun,
+  getMerging,
+  setMerging,
+} from "./api-runs.ts";
+export {
+  connectGithub,
+  disconnectGithub,
+  listTokens,
+  createToken,
+  revokeToken,
+  listMembers,
+  setMemberRole,
+  removeMember,
+  listInvitations,
+  createInvitation,
+  deleteInvitation,
+  listGrants,
+  createGrant,
+  deleteGrant,
+  listAuditEvents,
+  listRoles,
+  listAccountRoles,
+  createRole,
+  deleteRole,
+  getDeviceRequest,
+  decideDevice,
+} from "./api-org.ts";
+export {
+  loadModelPicker,
+  automations,
+  models,
+  knowledge,
+  playbooks,
+  loadPlaybooks,
+  openableTabs,
+  ingressUrl,
+  getUsage,
+  getBudget,
+  putBudget,
+  getCreditBalance,
+  getBilling,
+  billingLink,
+  welcomeState,
+  signUp,
+  installLink,
+  linkInstallation,
+} from "./api-settings.ts";
+
+if (typeof window !== "undefined") {
+  throw new Error("lib/api.ts is server-only: it reads WINDKEEL_API_TOKEN");
+}
+
+export { ApiError };
+
+export type { Accepted };

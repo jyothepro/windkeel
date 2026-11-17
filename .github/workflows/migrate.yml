@@ -1,0 +1,79 @@
+name: migrate
+
+# Applies migrations/*.sql to production on every merge to main (#337).
+#
+# Deploying never ran migrations, so twice a deploy went out ahead of its schema: on 2026-09-24
+# every token-checked /v1 call answered 500, and from 2026-09-25 to 2026-10-14 M8 ran against six
+# missing tables. This job makes "merged" mean "migrated", with no human step.
+#
+# The Vercel deploy is not sequenced after this job, so for a short window the new code can serve
+# before its migrations land (and old code always serves after them). Two things make that safe:
+# migrations are additive and backward-compatible (docs/running-the-factory.md, "Migrations"),
+# and every function refuses with 503 `schema_behind` until its migrations are applied
+# (src/factory/schema-guard.ts) rather than failing on a missing relation.
+#
+# Setup, once (docs/running-the-factory.md): a repository secret DATABASE_URL — role
+# orqon_app, Supavisor session pooler on port 5432. Not 6543: the transaction pooler silently
+# breaks the session advisory lock the runner holds (ADR-0008 §1).
+#
+# Dry run: Actions -> migrate -> Run workflow, dry-run checked (the default). Lists the pending
+# migrations and applies nothing.
+
+on:
+  # Every push, not only ones touching migrations/: the run is idempotent, and a run that failed
+  # (secret missing, database unreachable) is then retried by the next merge rather than waiting
+  # for the next migration to come along.
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: "List pending migrations only; apply nothing"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+# One run at a time against the one production database, and never cancelled part-way: a
+# migration interrupted between files is safe (each is its own transaction), but a queued run
+# must still happen rather than be dropped in favour of a later one.
+concurrency:
+  group: migrate-production
+  cancel-in-progress: false
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    # Only main's code ever reaches the production credential, including when dispatched by hand.
+    if: github.ref == 'refs/heads/main'
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - run: npm ci
+
+      - name: Check the secret is configured
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          if [ -z "$DATABASE_URL" ]; then
+            echo "::error::DATABASE_URL is not set; see docs/running-the-factory.md (Migrations)"
+            exit 1
+          fi
+
+      - name: List pending migrations (dry run)
+        if: github.event_name == 'workflow_dispatch' && inputs.dry-run
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: npm run db:migrate -- --dry-run
+
+      - name: Apply pending migrations
+        if: github.event_name == 'push' || !inputs.dry-run
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: npm run db:migrate

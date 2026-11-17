@@ -1,0 +1,21 @@
+[
+  { "name": "secrets", "tool": "gitleaks", "ran": true, "note": "0 secret(s) detected", "raw": "", "findings": [] },
+  { "name": "dependencies", "tool": "osv-scanner", "ran": true, "note": "0 advisory match(es)", "raw": "", "findings": [] },
+  {
+    "name": "patterns",
+    "tool": "semgrep",
+    "ran": true,
+    "note": "1 rule match(es)",
+    "raw": "git.js:4: javascript.lang.security.detect-child-process (ERROR)\n",
+    "findings": [
+      {
+        "id": "SEC-PATTERN-1",
+        "severity": "blocking",
+        "category": "dangerous-pattern",
+        "claim": "javascript.lang.security.detect-child-process: a caller-supplied value is interpolated into a shell command",
+        "location": "git.js:4",
+        "failure_scenario": "A ref of `main; rm -rf /` runs as a second shell command with the privileges of the process"
+      }
+    ]
+  }
+]

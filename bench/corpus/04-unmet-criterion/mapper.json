@@ -1,0 +1,10 @@
+{
+  "mappings": [
+    {
+      "id": "AC1",
+      "status": "unsatisfied",
+      "evidence": [],
+      "reason": "no evidence in this package shows non-numeric input being rejected"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "summary": "The discount arithmetic changed and no test covers a non-zero percentage.",
+  "findings": [
+    {
+      "id": "F-discount-scale",
+      "severity": "blocking",
+      "category": "logic",
+      "claim": "priceAfterDiscount divides the discount by 10 instead of 100, so every discount is ten times too large",
+      "location": "discount.js:6",
+      "failure_scenario": "A customer applying a 10% coupon to a $10.00 item is charged $0.00, and any percentage above 10 makes the price negative"
+    }
+  ]
+}

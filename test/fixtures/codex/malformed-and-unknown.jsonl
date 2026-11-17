@@ -1,0 +1,9 @@
+{"type":"thread.started","thread_id":"01JQ8ZMALFORMED0000000000"}
+{"type":"turn.started"}
+this line is not json at all
+{"type":"item.completed","item":{"id":"item_0","item_type":"web_search","query":"node 22 test runner"}}
+{"type":"item.completed","item":{"id":"item_1","item_type":"holographic_thought","text":"a type that does not exist yet"}}
+{"type":"quantum.entangled","payload":{"nope":true}}
+{"type":"item.completed","item":{"id":"item_2","item_type":"assistant_message","text":"Still here."}}
+{"type":"turn.completed","usage":{"input_tokens":10,"output_tokens":5}}
+{"type":"item.completed","item":{"id":"item_3","item_type":"assistant_mes

@@ -1,0 +1,5 @@
+{"type":"thread.started","thread_id":"01JQ8ZFAILEDTURN000000000"}
+{"type":"turn.started"}
+{"type":"item.started","item":{"id":"item_0","item_type":"command_execution","command":"npm ci","status":"in_progress"}}
+{"type":"item.completed","item":{"id":"item_0","item_type":"command_execution","command":"npm ci","exit_code":1,"status":"failed"}}
+{"type":"turn.failed","error":{"message":"model provider returned 429 after 3 retries"}}

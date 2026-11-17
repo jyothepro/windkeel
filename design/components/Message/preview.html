@@ -1,0 +1,19 @@
+<!-- @dsCard group="Agent" height=240 subtitle="A person's turn and the agent's reply" -->
+<div class="oq-stack" style="--gap: var(--space-5); padding: var(--space-4)">
+  <article class="oq-message oq-message--you">
+    <span class="oq-avatar" aria-hidden="true">JY</span>
+    <div>
+      <div class="oq-message__header"><span class="oq-message__author">You</span><time>2m ago</time></div>
+      <div class="oq-message__body"><p>A merge that lands after the execution ends is dropped. Adopt the run instead of discarding it.</p></div>
+    </div>
+  </article>
+  <article class="oq-message">
+    <span class="oq-avatar oq-avatar--agent" data-state="working" aria-hidden="true">O</span>
+    <div>
+      <div class="oq-message__header"><span class="oq-message__author">Windkeel</span><span class="oq-thinking"><span class="oq-thinking__dots" aria-hidden="true"><i></i><i></i><i></i></span>working</span></div>
+      <div class="oq-message__body">
+        <p>The late merge reaches <code>run-service.ts</code> after the state machine has moved to <code>ended</code>. Reproducing it with a test first.</p>
+      </div>
+    </div>
+  </article>
+</div>

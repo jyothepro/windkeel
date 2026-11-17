@@ -1,0 +1,35 @@
+# The Dockerfile never COPYs a secret, but that is only half the guarantee: the build context
+# is tarred and uploaded to whatever builder runs the build (Fly's remote builder, a CI
+# runner), so anything not excluded here leaves this machine even when it never lands in a
+# layer. ADR-0014 §1's rule is that a key exists in as few places as possible; a credential
+# sitting in a build context on someone else's machine is one of those places.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Not secrets, just weight and staleness. node_modules is reinstalled by `npm ci` inside the
+# build, and dist/ is rebuilt by `npm run build`; shipping the host's copies makes the build
+# slower and lets a stale local artifact silently win over a fresh compile.
+node_modules
+dist
+apps/*/dist
+packages/*/dist
+**/node_modules
+
+.git
+.github
+.claude
+supabase
+.DS_Store
+*.log
+*.log.tmp
+.scratch
+.windkeel
+
+# Documentation and research: several megabytes that no build step reads.
+docs
+research
+bench
+test

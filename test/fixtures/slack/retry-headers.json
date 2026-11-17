@@ -1,0 +1,4 @@
+{
+  "x-slack-retry-num": "1",
+  "x-slack-retry-reason": "http_timeout"
+}

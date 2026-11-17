@@ -1,0 +1,34 @@
+{
+  "format": "dev.orqon.evidence/v0",
+  "package_id": "epk_fixturefail1",
+  "created_at": "2026-07-26T00:00:00Z",
+  "tool": {
+    "name": "orqon",
+    "version": "0.1.0"
+  },
+  "subject": {
+    "repo": "github.com/jyothepro/orqon",
+    "pr": 12,
+    "title": "evidence: add manifest schema and verify command",
+    "head_sha": "9f3c2a1d8e4b7c6a5f0e1d2c3b4a5968778899aa",
+    "base_sha": "1a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d",
+    "author": {
+      "login": "codex-cloud[bot]",
+      "kind": "agent",
+      "agent": "openai-codex",
+      "on_behalf_of": "jyothepro"
+    }
+  },
+  "pipeline": [
+    "checks",
+    "review",
+    "intent",
+    "security",
+    "browser"
+  ],
+  "intent_ref": "intent.json",
+  "mapping_ref": "mapping.json",
+  "verdict_ref": "verdict.json",
+  "hashes_ref": "hashes.json",
+  "evidence_dir": "evidence/"
+}

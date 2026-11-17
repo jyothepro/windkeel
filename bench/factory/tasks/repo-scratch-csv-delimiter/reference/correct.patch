@@ -1,0 +1,27 @@
+diff --git a/src/csv.js b/src/csv.js
+index 3610975..d402830 100644
+--- a/src/csv.js
++++ b/src/csv.js
+@@ -1,8 +1,10 @@
+ /**
+- * Splits one line of CSV into its fields. A field wrapped in double quotes may contain commas,
+- * and a doubled quote inside it is a literal quote.
++ * Splits one line of CSV into its fields. A field wrapped in double quotes may contain the
++ * delimiter, and a doubled quote inside it is a literal quote. `options.delimiter` is the
++ * field separator, a comma by default.
+  */
+-export function parseLine(line) {
++export function parseLine(line, options = {}) {
++  const delimiter = options.delimiter ?? ",";
+   const fields = [];
+   let field = "";
+   let quoted = false;
+@@ -19,7 +21,7 @@ export function parseLine(line) {
+       }
+     } else if (char === '"') {
+       quoted = true;
+-    } else if (char === ",") {
++    } else if (char === delimiter) {
+       fields.push(field);
+       field = "";
+     } else {
