@@ -16,7 +16,7 @@
   "dependencies": {
     "@windkeel/api-contract": "*",
     "@windkeel/factory": "file:../..",
-    "@vercel/functions": "^3.10.6",
+    "@vercel/functions": "^3.11.3",
     "pg": "^8.23.1"
   },
   "devDependencies": {
