@@ -101,22 +101,22 @@
     "@types/node": "22.20.5",
     "@types/pg": "^8.23.1",
     "@workflow/world-local": "^5.0.0-beta.45",
-    "eslint": "^10.14.0",
-    "fast-check": "^4.10.2",
-    "playwright-core": "^1.65.0",
+    "eslint": "^10.15.0",
+    "fast-check": "^4.10.3",
+    "playwright-core": "^1.65.1",
     "typescript": "5.9.3",
-    "typescript-eslint": "^8.72.1"
+    "typescript-eslint": "^8.73.0"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1161.0",
-    "@aws-sdk/s3-request-presigner": "^3.1161.0",
+    "@aws-sdk/client-s3": "^3.1173.0",
+    "@aws-sdk/s3-request-presigner": "^3.1173.0",
     "@windkeel/api-contract": "*",
     "@windkeel/verification": "*",
-    "@vercel/connect": "^2.8.0",
-    "@vercel/functions": "^3.10.6",
+    "@vercel/connect": "^2.9.5",
+    "@vercel/functions": "^3.11.3",
     "@vercel/sandbox": "^3.9.1",
     "pg": "^8.23.1",
-    "workflow": "^5.3.0"
+    "workflow": "^5.7.0"
   },
   "private": true
 }
